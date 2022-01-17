@@ -114,3 +114,12 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
+
+class MyHimePage extends StatelessWidget {
+  const MyHimePage({Key? key}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return Container();
+  }
+}
+
