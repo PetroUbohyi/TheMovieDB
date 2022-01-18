@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:themoviedb/presentation/app_router.dart';
 import 'package:themoviedb/presentation/screens/movies_list_screen.dart';
+import 'package:themoviedb/theme/app_colors.dart';
 
 void main() {
   runApp(TheMovieDBApp(
@@ -16,6 +17,11 @@ class TheMovieDBApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      title: 'The Movie DB',
+      theme: ThemeData(
+        appBarTheme: const AppBarTheme(backgroundColor: AppColors.mainAppColor),
+
+      ),
       debugShowCheckedModeBanner: false,
       onGenerateRoute: router.generateRoute,
     );
