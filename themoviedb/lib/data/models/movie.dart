@@ -1,3 +1,8 @@
+import 'package:json_annotation/json_annotation.dart';
+
+part 'movie.g.dart';
+
+@JsonSerializable(fieldRename: FieldRename.snake) //for JSON snake field names
 class Movie {
   final String? posterPath;
   final bool adult;
@@ -29,4 +34,8 @@ class Movie {
       required this.voteCount,
       required this.video,
       required this.voteAverage});
+
+  factory Movie.fromJson(Map<String, dynamic> json) => _$MovieFromJson(json);
+
+  Map<String, dynamic> toJson() => _$MovieToJson(this);
 }

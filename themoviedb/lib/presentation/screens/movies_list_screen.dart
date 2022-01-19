@@ -7,11 +7,10 @@ class MoviesListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final movie = Movie(
-        title: "Spider-Man",
-        description:
-        'Действие фильма «Человек-паук: Нет пути домой» начинает своё развитие в тот момент, когда Мистерио удаётся выяснить истинную личность Человека-паука. С этого момента жизнь Питера Паркера становится невыносимой. Если ранее он мог успешно переключаться между своими амплуа, то сейчас это сделать невозможно. Переворачивается с ног на голову не только жизнь Человека-пауку, но и репутация. Понимая, что так жить невозможно, главный герой фильма «Человек-паук: Нет пути домой» принимает решение обратиться за помощью к своему давнему знакомому Стивену Стрэнджу. Питер Паркер надеется, что с помощью магии он сможет восстановить его анонимность. Стрэндж соглашается помочь.',
-        releaseDate: DateTime(5, 1, 2002));
+    final title = "Spider-Man";
+    final description =
+        'Действие фильма «Человек-паук: Нет пути домой» начинает своё развитие в тот момент, когда Мистерио удаётся выяснить истинную личность Человека-паука. С этого момента жизнь Питера Паркера становится невыносимой. Если ранее он мог успешно переключаться между своими амплуа, то сейчас это сделать невозможно. Переворачивается с ног на голову не только жизнь Человека-пауку, но и репутация. Понимая, что так жить невозможно, главный герой фильма «Человек-паук: Нет пути домой» принимает решение обратиться за помощью к своему давнему знакомому Стивену Стрэнджу. Питер Паркер надеется, что с помощью магии он сможет восстановить его анонимность. Стрэндж соглашается помочь.';
+    final releaseDate = '2.05.2021';
     return Scaffold(
       appBar: AppBar(
         title: Text('TMDB'),
@@ -25,14 +24,14 @@ class MoviesListScreen extends StatelessWidget {
               itemBuilder: (BuildContext context, int index) {
                 return Padding(
                   padding:
-                  const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                   child: Stack(
                     children: [
                       Container(
                         decoration: BoxDecoration(
                           color: Colors.white,
                           border:
-                          Border.all(color: Colors.black.withOpacity(0.2)),
+                              Border.all(color: Colors.black.withOpacity(0.2)),
                           borderRadius: BorderRadius.all(Radius.circular(10)),
                           boxShadow: [
                             BoxShadow(
@@ -45,7 +44,9 @@ class MoviesListScreen extends StatelessWidget {
                         clipBehavior: Clip.hardEdge,
                         child: Row(
                           children: [
-                            Image(image: AssetImage('assets/images/spider_man.jpg')),
+                            Image(
+                                image:
+                                    AssetImage('assets/images/spider_man.jpg')),
                             SizedBox(
                               width: 15,
                             ),
@@ -57,9 +58,9 @@ class MoviesListScreen extends StatelessWidget {
                                     height: 20,
                                   ),
                                   Text(
-                                    movie.title,
+                                    title,
                                     style:
-                                    TextStyle(fontWeight: FontWeight.bold),
+                                        TextStyle(fontWeight: FontWeight.bold),
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                   ),
@@ -67,7 +68,7 @@ class MoviesListScreen extends StatelessWidget {
                                     height: 5,
                                   ),
                                   Text(
-                                    '2.05.2021',
+                                    releaseDate,
                                     style: TextStyle(color: Colors.grey),
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
@@ -76,7 +77,7 @@ class MoviesListScreen extends StatelessWidget {
                                     height: 20,
                                   ),
                                   Text(
-                                    movie.description,
+                                    description,
                                     maxLines: 4,
                                     overflow: TextOverflow.ellipsis,
                                   ),
@@ -93,8 +94,8 @@ class MoviesListScreen extends StatelessWidget {
                         color: Colors.transparent,
                         child: InkWell(
                           onTap: () {
-                            Navigator.of(context).pushNamed(
-                                MOVIE_DETAILS_SCREEN);
+                            Navigator.of(context)
+                                .pushNamed(MOVIE_DETAILS_SCREEN);
                           },
                           borderRadius: BorderRadius.all(Radius.circular(10)),
                         ),
