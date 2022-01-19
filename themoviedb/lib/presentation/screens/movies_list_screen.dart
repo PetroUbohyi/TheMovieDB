@@ -45,10 +45,7 @@ class MoviesListScreen extends StatelessWidget {
                         clipBehavior: Clip.hardEdge,
                         child: Row(
                           children: [
-                            Container(
-                              width: 95,
-                              color: Colors.red,
-                            ),
+                            Image(image: AssetImage('assets/images/spider_man.jpg')),
                             SizedBox(
                               width: 15,
                             ),
