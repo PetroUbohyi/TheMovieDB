@@ -4,6 +4,7 @@ import 'package:themoviedb/presentation/screens/movies_list_screen.dart';
 import 'package:themoviedb/theme/app_colors.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(TheMovieDBApp(
     router: AppRouter(),
   ));

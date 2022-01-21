@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:themoviedb/constants/strings.dart';
+import 'package:themoviedb/cubit/movies_cubit.dart';
+import 'package:themoviedb/data/api_client.dart';
 import 'package:themoviedb/data/models/movie.dart';
 
 class MoviesListScreen extends StatelessWidget {
@@ -7,17 +10,147 @@ class MoviesListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final title = "Spider-Man";
-    final description =
-        'Действие фильма «Человек-паук: Нет пути домой» начинает своё развитие в тот момент, когда Мистерио удаётся выяснить истинную личность Человека-паука. С этого момента жизнь Питера Паркера становится невыносимой. Если ранее он мог успешно переключаться между своими амплуа, то сейчас это сделать невозможно. Переворачивается с ног на голову не только жизнь Человека-пауку, но и репутация. Понимая, что так жить невозможно, главный герой фильма «Человек-паук: Нет пути домой» принимает решение обратиться за помощью к своему давнему знакомому Стивену Стрэнджу. Питер Паркер надеется, что с помощью магии он сможет восстановить его анонимность. Стрэндж соглашается помочь.';
-    final releaseDate = '2.05.2021';
+    BlocProvider.of<MoviesCubit>(context).fetchMovies();
     return Scaffold(
       appBar: AppBar(
+        actions: [
+          IconButton(
+              onPressed: () {
+                BlocProvider.of<MoviesCubit>(context).fetchMovies();
+              },
+              icon: Icon(Icons.title)),
+        ],
         title: Text('TMDB'),
       ),
-      body: Stack(
-        children: [
-          ListView.builder(
+      body: BlocBuilder<MoviesCubit, MoviesState>(
+        builder: (context, state) {
+          if (state is MoviesLoadingState) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          if (state is MoviesLoadedState) {
+            final movies = (state as MoviesLoadedState).movies;
+            return Stack(
+              children: [
+                ListView.builder(
+                    padding: EdgeInsets.only(top: 70),
+                    itemCount: movies.length,
+                    itemExtent: 200,
+                    itemBuilder: (BuildContext context, int index) {
+                      final movie = movies[index];
+                      final posterPath = movie.posterPath;
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 10),
+                        child: Stack(
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                border: Border.all(
+                                    color: Colors.black.withOpacity(0.2)),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10)),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(0.1),
+                                    blurRadius: 8,
+                                    offset: Offset(0, 2),
+                                  )
+                                ],
+                              ),
+                              clipBehavior: Clip.hardEdge,
+                              child: Row(
+                                children: [
+                                  posterPath != null
+                                      ? Image.network(
+                                          ApiClient.imageUrl(posterPath))
+                                      : SizedBox.shrink(),
+                                  SizedBox(
+                                    width: 15,
+                                  ),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        SizedBox(
+                                          height: 20,
+                                        ),
+                                        Text(
+                                          movie.title,
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                        SizedBox(
+                                          height: 5,
+                                        ),
+                                        Text(
+                                          '2.05.2021',
+                                          style: TextStyle(color: Colors.grey),
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                        SizedBox(
+                                          height: 20,
+                                        ),
+                                        Text(
+                                          movie.overview,
+                                          maxLines: 4,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  )
+                                ],
+                              ),
+                            ),
+                            Material(
+                              color: Colors.transparent,
+                              child: InkWell(
+                                onTap: () {
+                                  Navigator.of(context)
+                                      .pushNamed(MOVIE_DETAILS_SCREEN);
+                                },
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10)),
+                              ),
+                            )
+                          ],
+                        ),
+                      );
+                    }),
+                Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: TextField(
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.white.withAlpha(235),
+                      border: OutlineInputBorder(),
+                      labelText: 'Search',
+                    ),
+                  ),
+                ),
+              ],
+            );
+          }
+          return Center(
+            child: Text('ERROR STATE'),
+          );
+        },
+      ),
+    );
+  }
+}
+
+/*
+ListView.builder(
               padding: EdgeInsets.only(top: 70),
               itemCount: 10,
               itemExtent: 200,
@@ -103,21 +236,5 @@ class MoviesListScreen extends StatelessWidget {
                     ],
                   ),
                 );
-              }),
-          Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: TextField(
-              onChanged: null,
-              decoration: InputDecoration(
-                filled: true,
-                fillColor: Colors.white.withAlpha(235),
-                border: OutlineInputBorder(),
-                labelText: 'Search',
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
+              });
+ */
