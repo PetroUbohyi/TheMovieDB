@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:themoviedb/constants/strings.dart';
 import 'package:themoviedb/cubit/movies_cubit.dart';
 import 'package:themoviedb/data/api_client.dart';
-import 'package:themoviedb/data/models/movie.dart';
 
 class MoviesListScreen extends StatelessWidget {
   const MoviesListScreen({Key? key}) : super(key: key);
@@ -13,13 +12,6 @@ class MoviesListScreen extends StatelessWidget {
     BlocProvider.of<MoviesCubit>(context).fetchMovies();
     return Scaffold(
       appBar: AppBar(
-        actions: [
-          IconButton(
-              onPressed: () {
-                BlocProvider.of<MoviesCubit>(context).fetchMovies();
-              },
-              icon: Icon(Icons.title)),
-        ],
         title: Text('TMDB'),
       ),
       body: BlocBuilder<MoviesCubit, MoviesState>(
@@ -89,7 +81,7 @@ class MoviesListScreen extends StatelessWidget {
                                           height: 5,
                                         ),
                                         Text(
-                                          '2.05.2021',
+                                          movie.releaseDate!,
                                           style: TextStyle(color: Colors.grey),
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
@@ -115,8 +107,10 @@ class MoviesListScreen extends StatelessWidget {
                               color: Colors.transparent,
                               child: InkWell(
                                 onTap: () {
-                                  Navigator.of(context)
-                                      .pushNamed(MOVIE_DETAILS_SCREEN);
+                                  final id = movie.id;
+                                  Navigator.of(context).pushNamed(
+                                      MOVIE_DETAILS_SCREEN,
+                                      arguments: id);
                                 },
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(10)),
