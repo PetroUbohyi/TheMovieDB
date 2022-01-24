@@ -19,8 +19,7 @@ class MovieDetails {
   final String? posterPath;
   final List<ProductionCompanie> productionCompanies;
   final List<ProductionCountrie> productionCountries;
-  @JsonKey(fromJson: _parseDateFromString)
-  final DateTime? releaseDate;
+  final String? releaseDate;
   final int revenue;
   final int? runtime;
   final List<SpokenLanguage> spokenLanguages;
@@ -63,11 +62,6 @@ class MovieDetails {
       _$MovieDetailsFromJson(json);
 
   Map<String, dynamic> toJson() => _$MovieDetailsToJson(this);
-
-  static DateTime? _parseDateFromString(String? rawDate) {
-    if(rawDate == null || rawDate.isEmpty) return null;
-    return DateTime.tryParse(rawDate);
-  }
 }
 
 @JsonSerializable(fieldRename: FieldRename.snake)
@@ -148,4 +142,3 @@ class SpokenLanguage {
 
   Map<String, dynamic> toJson() => _$SpokenLanguageToJson(this);
 }
-

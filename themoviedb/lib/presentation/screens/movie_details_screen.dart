@@ -40,7 +40,10 @@ class MovieDetailsScreen extends StatelessWidget {
               ),
               Padding(
                 padding: const EdgeInsets.all(20.0),
-                child: _MovieTitleWidget(),
+                child: _MovieTitleWidget(
+                  movieTitle: movieDetails.title,
+                  releaseDate: movieDetails.releaseDate!,
+                ),
               ),
             ],
           ),
@@ -87,7 +90,12 @@ class _TopPosterWidget extends StatelessWidget {
 }
 
 class _MovieTitleWidget extends StatelessWidget {
-  const _MovieTitleWidget({Key? key}) : super(key: key);
+  final String movieTitle;
+  final String releaseDate;
+
+  const _MovieTitleWidget(
+      {Key? key, required this.movieTitle, required this.releaseDate})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -99,11 +107,13 @@ class _MovieTitleWidget extends StatelessWidget {
           text: TextSpan(
             children: [
               TextSpan(
-                  text: 'Spider-Man',
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold)),
+                text: movieTitle,
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold),
+              ),
+              TextSpan(text: releaseDate)
             ],
           ),
         ),
