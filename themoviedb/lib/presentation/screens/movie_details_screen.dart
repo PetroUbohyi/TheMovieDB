@@ -33,8 +33,7 @@ class MovieDetailsScreen extends StatelessWidget {
           appBar: AppBar(
             title: Text(movieDetails.title),
           ),
-          body: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          body: ListView(
             children: [
               _TopPosterWidget(
                 backdropPath: movieDetails.backdropPath!,
@@ -58,6 +57,10 @@ class MovieDetailsScreen extends StatelessWidget {
               _OverviewWidget(
                 overview: movieDetails.overview!,
               ),
+              SizedBox(
+                height: 15,
+              ),
+              _TopBilledCastWidget(),
             ],
           ),
         );
@@ -80,7 +83,7 @@ class _TopPosterWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AspectRatio(
-      aspectRatio: 390.4 / 175.68 ,
+      aspectRatio: 390.4 / 175.68,
       child: Stack(
         fit: StackFit.loose,
         children: [
@@ -194,7 +197,10 @@ class _UserScoreWidget extends StatelessWidget {
                 SizedBox(
                   width: 15,
                 ),
-                Text('Play Trailer', style: TextStyle(color: Colors.white),),
+                Text(
+                  'Play Trailer',
+                  style: TextStyle(color: Colors.white),
+                ),
               ],
             ),
           )
@@ -243,6 +249,57 @@ class _OverviewWidget extends StatelessWidget {
             style: TextStyle(color: Colors.white),
           )
         ],
+      ),
+    );
+  }
+}
+
+class _TopBilledCastWidget extends StatelessWidget {
+  const _TopBilledCastWidget({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 10.0),
+      child: ColoredBox(
+        color: Colors.white,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Text(
+                'Top Billed Cast',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+              ),
+            ),
+            SizedBox(
+              height: 300,
+              child: Scrollbar(
+                child: ListView.builder(
+                    itemBuilder: (BuildContext context, int index) {
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        border: Border.all(color: Colors.black.withOpacity(0.2)),
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.1),
+                            blurRadius: 8,
+                            offset: Offset(0, 2),
+                          )
+                        ],
+                      ),
+                    ),
+                  );
+                }),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
