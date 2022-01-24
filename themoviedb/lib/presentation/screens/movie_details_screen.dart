@@ -60,7 +60,7 @@ class MovieDetailsScreen extends StatelessWidget {
               SizedBox(
                 height: 15,
               ),
-              _TopBilledCastWidget(),
+              _TopBilledCastWidget(posterPath: movieDetails.posterPath!,),
             ],
           ),
         );
@@ -255,7 +255,10 @@ class _OverviewWidget extends StatelessWidget {
 }
 
 class _TopBilledCastWidget extends StatelessWidget {
-  const _TopBilledCastWidget({Key? key}) : super(key: key);
+  final String posterPath;
+
+  const _TopBilledCastWidget({Key? key, required this.posterPath})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -277,25 +280,64 @@ class _TopBilledCastWidget extends StatelessWidget {
               height: 300,
               child: Scrollbar(
                 child: ListView.builder(
+                    itemExtent: 120,
+                    itemCount: 20,
+                    scrollDirection: Axis.horizontal,
                     itemBuilder: (BuildContext context, int index) {
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: DecoratedBox(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border.all(color: Colors.black.withOpacity(0.2)),
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.1),
-                            blurRadius: 8,
-                            offset: Offset(0, 2),
-                          )
-                        ],
-                      ),
-                    ),
-                  );
-                }),
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: DecoratedBox(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            border: Border.all(
+                                color: Colors.black.withOpacity(0.2)),
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.1),
+                                blurRadius: 8,
+                                offset: Offset(0, 2),
+                              )
+                            ],
+                          ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.all(Radius.circular(8)),
+                            clipBehavior: Clip.hardEdge,
+                            child: Column(
+                              children: [
+                                Image.network(
+                                  ApiClient.imageUrl(posterPath),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.all(8.0),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Tom Holland',
+                                        style: TextStyle(fontSize: 13),
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                      SizedBox(
+                                        height: 7,
+                                      ),
+                                      Text(
+                                        'Spider Man',
+                                        style: TextStyle(
+                                            fontSize: 12, color: Colors.grey),
+                                        maxLines: 2,
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      );
+                    }),
               ),
             )
           ],
