@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:themoviedb/constants/strings.dart';
 import 'package:themoviedb/cubit/movie_detail_cubit.dart';
 import 'package:themoviedb/data/api_client.dart';
 import 'package:percent_indicator/percent_indicator.dart';
@@ -60,7 +61,10 @@ class MovieDetailsScreen extends StatelessWidget {
               SizedBox(
                 height: 15,
               ),
-              _TopBilledCastWidget(posterPath: movieDetails.posterPath!,),
+              _TopBilledCastWidget(
+                posterPath: movieDetails.posterPath!,
+                movieId: movieId,
+              ),
             ],
           ),
         );
@@ -256,8 +260,10 @@ class _OverviewWidget extends StatelessWidget {
 
 class _TopBilledCastWidget extends StatelessWidget {
   final String posterPath;
+  final int movieId;
 
-  const _TopBilledCastWidget({Key? key, required this.posterPath})
+  const _TopBilledCastWidget(
+      {Key? key, required this.posterPath, required this.movieId})
       : super(key: key);
 
   @override
@@ -338,6 +344,20 @@ class _TopBilledCastWidget extends StatelessWidget {
                         ),
                       );
                     }),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(left: 10.0),
+              child: TextButton(
+                onPressed: () {
+                  Navigator.of(context)
+                      .pushNamed(ACTORS_LIST_SCREEN, arguments: movieId);
+                },
+                child: Text(
+                  'Full Cast & Crew',
+                  style: TextStyle(
+                      color: Colors.black, fontWeight: FontWeight.w700),
+                ),
               ),
             )
           ],
