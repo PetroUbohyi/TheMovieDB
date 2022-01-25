@@ -9,9 +9,10 @@ class MovieDetailLoadingState extends MovieDetailState {}
 
 class MovieDetailLoadedState extends MovieDetailState {
   final MovieDetails movieDetails;
+  final Credits credits;
 
-  MovieDetailLoadedState({required this.movieDetails})
-      : assert(movieDetails != null);
+  MovieDetailLoadedState({required this.credits, required this.movieDetails})
+      : assert(movieDetails != null, credits != null);
 }
 
 class MoviesErrorState extends MovieDetailState {}

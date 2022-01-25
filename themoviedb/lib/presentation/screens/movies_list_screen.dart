@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:themoviedb/constants/strings.dart';
-import 'package:themoviedb/cubit/movies_cubit.dart';
+import 'package:themoviedb/cubit/movies/movies_cubit.dart';
 import 'package:themoviedb/data/api_client.dart';
 
 class MoviesListScreen extends StatelessWidget {

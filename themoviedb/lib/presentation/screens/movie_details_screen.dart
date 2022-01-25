@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:themoviedb/constants/strings.dart';
-import 'package:themoviedb/cubit/movie_detail_cubit.dart';
+import 'package:themoviedb/cubit/movie_detail/movie_detail_cubit.dart';
 import 'package:themoviedb/data/api_client.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:themoviedb/data/models/credits.dart';
 
 class MovieDetailsScreen extends StatelessWidget {
   final int movieId;
@@ -29,6 +30,7 @@ class MovieDetailsScreen extends StatelessWidget {
       }
       if (state is MovieDetailLoadedState) {
         final movieDetails = (state as MovieDetailLoadedState).movieDetails;
+        final castAndCrew = (state as MovieDetailLoadedState).credits.cast;
         return Scaffold(
           backgroundColor: Colors.black,
           appBar: AppBar(
@@ -62,6 +64,7 @@ class MovieDetailsScreen extends StatelessWidget {
                 height: 15,
               ),
               _TopBilledCastWidget(
+                cast: castAndCrew,
                 posterPath: movieDetails.posterPath!,
                 movieId: movieId,
               ),
@@ -261,9 +264,13 @@ class _OverviewWidget extends StatelessWidget {
 class _TopBilledCastWidget extends StatelessWidget {
   final String posterPath;
   final int movieId;
+  final List<Cast> cast;
 
   const _TopBilledCastWidget(
-      {Key? key, required this.posterPath, required this.movieId})
+      {Key? key,
+      required this.posterPath,
+      required this.movieId,
+      required this.cast})
       : super(key: key);
 
   @override
@@ -290,6 +297,10 @@ class _TopBilledCastWidget extends StatelessWidget {
                     itemCount: 20,
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (BuildContext context, int index) {
+                      final actor = cast[index];
+                      final profilePath = actor.profilePath;
+                      final name = actor.name;
+                      final character = actor.character;
                       return Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: DecoratedBox(
@@ -311,9 +322,12 @@ class _TopBilledCastWidget extends StatelessWidget {
                             clipBehavior: Clip.hardEdge,
                             child: Column(
                               children: [
-                                Image.network(
-                                  ApiClient.imageUrl(posterPath),
-                                ),
+                                profilePath != null
+                                    ? Image.network(
+                                        ApiClient.imageUrl(
+                                            cast[index].profilePath!),
+                                      )
+                                    : SizedBox.shrink(),
                                 Padding(
                                   padding: EdgeInsets.all(8.0),
                                   child: Column(
@@ -321,7 +335,7 @@ class _TopBilledCastWidget extends StatelessWidget {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        'Tom Holland',
+                                        name,
                                         style: TextStyle(fontSize: 13),
                                         maxLines: 2,
                                         overflow: TextOverflow.ellipsis,
@@ -330,7 +344,7 @@ class _TopBilledCastWidget extends StatelessWidget {
                                         height: 7,
                                       ),
                                       Text(
-                                        'Spider Man',
+                                        character,
                                         style: TextStyle(
                                             fontSize: 12, color: Colors.grey),
                                         maxLines: 2,
@@ -354,7 +368,7 @@ class _TopBilledCastWidget extends StatelessWidget {
                       .pushNamed(ACTORS_LIST_SCREEN, arguments: movieId);
                 },
                 child: Text(
-                  'Full Cast & Crew',
+                  "Full Cast & Crew",
                   style: TextStyle(
                       color: Colors.black, fontWeight: FontWeight.w700),
                 ),

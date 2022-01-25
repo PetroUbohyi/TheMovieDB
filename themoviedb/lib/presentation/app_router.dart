@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:themoviedb/constants/strings.dart';
-import 'package:themoviedb/cubit/movie_detail_cubit.dart';
-import 'package:themoviedb/cubit/movies_cubit.dart';
+import 'package:themoviedb/cubit/movie_detail/movie_detail_cubit.dart';
+import 'package:themoviedb/cubit/movies/movies_cubit.dart';
 import 'package:themoviedb/data/api_client.dart';
 import 'package:themoviedb/data/repository.dart';
 import 'package:themoviedb/presentation/screens/actors_list_screen.dart';

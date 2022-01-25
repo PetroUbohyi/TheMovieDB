@@ -3,17 +3,17 @@ import 'package:json_annotation/json_annotation.dart';
 part 'credits.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
-class Credist {
+class Credits {
   final int id;
   List<Cast> cast;
   List<Crew> crew;
 
-  Credist({required this.id, required this.cast, required this.crew});
+  Credits({required this.id, required this.cast, required this.crew});
 
-  factory Credist.fromJson(Map<String, dynamic> json) =>
-      _$CredistFromJson(json);
+  factory Credits.fromJson(Map<String, dynamic> json) =>
+      _$CreditsFromJson(json);
 
-  Map<String, dynamic> toJson() => _$CredistToJson(this);
+  Map<String, dynamic> toJson() => _$CreditsToJson(this);
 }
 
 @JsonSerializable(fieldRename: FieldRename.snake)

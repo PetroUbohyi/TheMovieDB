@@ -1,4 +1,5 @@
 import 'package:themoviedb/data/api_client.dart';
+import 'package:themoviedb/data/models/credits.dart';
 import 'package:themoviedb/data/models/movie.dart';
 import 'package:themoviedb/data/models/movie_details.dart';
 
@@ -17,6 +18,8 @@ class Repository {
     return movieDetailsList;
   }
 
-
-
+  Future<Credits> castAndCrew(int movieId) async {
+    final castAndCrewList = apiClient.getCastAndCrew(movieId);
+    return castAndCrewList;
+  }
 }

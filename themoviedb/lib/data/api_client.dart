@@ -1,3 +1,4 @@
+import 'package:themoviedb/data/models/credits.dart';
 import 'package:themoviedb/data/models/movie.dart';
 import 'package:dio/dio.dart';
 import 'package:themoviedb/data/models/movie_details.dart';
@@ -30,6 +31,18 @@ class ApiClient {
       var movieDetails = await response.data;
       MovieDetails movieDetailsResult = MovieDetails.fromJson(movieDetails);
       return movieDetailsResult;
+    } catch (e) {
+      throw Exception('Exception with error: $e');
+    }
+  }
+
+  Future<Credits> getCastAndCrew(int movieId) async {
+    try {
+      final url = '$_host/movie/$movieId/credits?api_key=$_apiKey';
+      final response = await _dio.get(url);
+      var castAndCrew = await response.data;
+      Credits castAndCrewResult = Credits.fromJson(castAndCrew);
+      return castAndCrewResult;
     } catch (e) {
       throw Exception('Exception with error: $e');
     }

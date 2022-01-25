@@ -6,7 +6,7 @@ part of 'credits.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Credist _$CredistFromJson(Map<String, dynamic> json) => Credist(
+Credits _$CreditsFromJson(Map<String, dynamic> json) => Credits(
       id: json['id'] as int,
       cast: (json['cast'] as List<dynamic>)
           .map((e) => Cast.fromJson(e as Map<String, dynamic>))
@@ -16,7 +16,7 @@ Credist _$CredistFromJson(Map<String, dynamic> json) => Credist(
           .toList(),
     );
 
-Map<String, dynamic> _$CredistToJson(Credist instance) => <String, dynamic>{
+Map<String, dynamic> _$CreditsToJson(Credits instance) => <String, dynamic>{
       'id': instance.id,
       'cast': instance.cast.map((e) => e.toJson()).toList(),
       'crew': instance.crew.map((e) => e.toJson()).toList(),
