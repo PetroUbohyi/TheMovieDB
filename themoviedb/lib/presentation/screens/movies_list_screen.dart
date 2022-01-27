@@ -10,6 +10,7 @@ class MoviesListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     BlocProvider.of<MoviesCubit>(context).fetchMovies();
+    final text = '';
     return Scaffold(
       appBar: AppBar(
         title: Text('TMDB'),
@@ -23,6 +24,10 @@ class MoviesListScreen extends StatelessWidget {
           }
           if (state is MoviesLoadedState) {
             final movies = (state as MoviesLoadedState).movies;
+            final isDark = Theme.of(context).iconTheme.color == Colors.white
+                ? false
+                : true;
+            final textColor = isDark ? Colors.white : Colors.black;
             return Stack(
               children: [
                 ListView.builder(
@@ -39,7 +44,7 @@ class MoviesListScreen extends StatelessWidget {
                           children: [
                             Container(
                               decoration: BoxDecoration(
-                                color: Colors.white,
+                                color: Theme.of(context).iconTheme.color,
                                 border: Border.all(
                                     color: Colors.black.withOpacity(0.2)),
                                 borderRadius:
@@ -57,7 +62,9 @@ class MoviesListScreen extends StatelessWidget {
                                 children: [
                                   posterPath != null
                                       ? Image.network(
-                                          ApiClient.imageUrl(posterPath))
+                                          ApiClient.imageUrl(posterPath),
+                                          width: 118.7,
+                                        )
                                       : SizedBox.shrink(),
                                   SizedBox(
                                     width: 15,
@@ -73,6 +80,7 @@ class MoviesListScreen extends StatelessWidget {
                                         Text(
                                           movie.title,
                                           style: TextStyle(
+                                              color: textColor,
                                               fontWeight: FontWeight.bold),
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
@@ -93,6 +101,7 @@ class MoviesListScreen extends StatelessWidget {
                                           movie.overview,
                                           maxLines: 4,
                                           overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(color: textColor),
                                         ),
                                       ],
                                     ),

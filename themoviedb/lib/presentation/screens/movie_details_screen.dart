@@ -30,7 +30,7 @@ class MovieDetailsScreen extends StatelessWidget {
       }
       if (state is MovieDetailLoadedState) {
         final movieDetails = (state as MovieDetailLoadedState).movieDetails;
-        final castAndCrew = (state as MovieDetailLoadedState).credits.cast;
+        final castAndCrew = (state as MovieDetailLoadedState).credits;
         return Scaffold(
           backgroundColor: Colors.black,
           appBar: AppBar(
@@ -64,7 +64,7 @@ class MovieDetailsScreen extends StatelessWidget {
                 height: 15,
               ),
               _TopBilledCastWidget(
-                cast: castAndCrew,
+                castAndCrew: castAndCrew,
                 posterPath: movieDetails.posterPath!,
                 movieId: movieId,
               ),
@@ -264,21 +264,26 @@ class _OverviewWidget extends StatelessWidget {
 class _TopBilledCastWidget extends StatelessWidget {
   final String posterPath;
   final int movieId;
-  final List<Cast> cast;
+  final Credits castAndCrew;
 
   const _TopBilledCastWidget(
       {Key? key,
       required this.posterPath,
       required this.movieId,
-      required this.cast})
+      required this.castAndCrew})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    var cast = castAndCrew.cast;
+    final isDark =
+        Theme.of(context).iconTheme.color == Colors.white ? false : true;
+    final colorBox = isDark ? Colors.black : Colors.white;
+    final textColor = isDark ? Colors.white : Colors.black;
     return Padding(
       padding: const EdgeInsets.only(left: 10.0),
       child: ColoredBox(
-        color: Colors.white,
+        color: colorBox,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -286,78 +291,88 @@ class _TopBilledCastWidget extends StatelessWidget {
               padding: const EdgeInsets.all(10.0),
               child: Text(
                 'Top Billed Cast',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+                style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700,
+                    color: textColor),
               ),
             ),
             SizedBox(
               height: 300,
               child: Scrollbar(
                 child: ListView.builder(
-                    itemExtent: 120,
-                    itemCount: 20,
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (BuildContext context, int index) {
-                      final actor = cast[index];
-                      final profilePath = actor.profilePath;
-                      final name = actor.name;
-                      final character = actor.character;
-                      return Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: DecoratedBox(
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            border: Border.all(
-                                color: Colors.black.withOpacity(0.2)),
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.1),
-                                blurRadius: 8,
-                                offset: Offset(0, 2),
-                              )
+                  itemExtent: 120,
+                  itemCount: cast.length >= 10 ? 10 : cast.length,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (BuildContext context, int index) {
+                    final actor = cast[index];
+                    final profilePath = actor.profilePath;
+                    final name = actor.name;
+                    final character = actor.character;
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: DecoratedBox(
+                        decoration: BoxDecoration(
+                          color: colorBox,
+                          border:
+                              Border.all(color: Colors.black.withOpacity(0.2)),
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.1),
+                              blurRadius: 8,
+                              offset: Offset(0, 2),
+                            )
+                          ],
+                        ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.all(Radius.circular(8)),
+                          clipBehavior: Clip.hardEdge,
+                          child: Column(
+                            children: [
+                              profilePath != null
+                                  ? Image.network(
+                                      ApiClient.imageUrl(
+                                        cast[index].profilePath!,
+                                      ),
+                                      height: 156,
+                                    )
+                                  : Container(
+                                      height: 156,
+                                      child: Center(
+                                        child: Text('No image'),
+                                      ),
+                                    ),
+                              Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      name,
+                                      style: TextStyle(fontSize: 13,color: textColor),
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                    SizedBox(
+                                      height: 7,
+                                    ),
+                                    Text(
+                                      character,
+                                      style: TextStyle(
+                                          fontSize: 12, color: Colors.grey),
+                                      maxLines: 2,
+                                    )
+                                  ],
+                                ),
+                              ),
                             ],
                           ),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.all(Radius.circular(8)),
-                            clipBehavior: Clip.hardEdge,
-                            child: Column(
-                              children: [
-                                profilePath != null
-                                    ? Image.network(
-                                        ApiClient.imageUrl(
-                                            cast[index].profilePath!),
-                                      )
-                                    : SizedBox.shrink(),
-                                Padding(
-                                  padding: EdgeInsets.all(8.0),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        name,
-                                        style: TextStyle(fontSize: 13),
-                                        maxLines: 2,
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                      SizedBox(
-                                        height: 7,
-                                      ),
-                                      Text(
-                                        character,
-                                        style: TextStyle(
-                                            fontSize: 12, color: Colors.grey),
-                                        maxLines: 2,
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
                         ),
-                      );
-                    }),
+                      ),
+                    );
+                  },
+                ),
               ),
             ),
             Padding(
@@ -365,12 +380,12 @@ class _TopBilledCastWidget extends StatelessWidget {
               child: TextButton(
                 onPressed: () {
                   Navigator.of(context)
-                      .pushNamed(ACTORS_LIST_SCREEN, arguments: movieId);
+                      .pushNamed(ACTORS_LIST_SCREEN, arguments: castAndCrew);
                 },
                 child: Text(
                   "Full Cast & Crew",
                   style: TextStyle(
-                      color: Colors.black, fontWeight: FontWeight.w700),
+                      color: textColor, fontWeight: FontWeight.w700),
                 ),
               ),
             )

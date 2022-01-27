@@ -2,11 +2,12 @@ import 'package:themoviedb/data/models/credits.dart';
 import 'package:themoviedb/data/models/movie.dart';
 import 'package:dio/dio.dart';
 import 'package:themoviedb/data/models/movie_details.dart';
+import 'package:themoviedb/enviroment/enviroment.dart';
 
 class ApiClient {
   static const _host = 'https://api.themoviedb.org/3';
   static const _imageUrl = 'https://image.tmdb.org/t/p/w500';
-  static const _apiKey = '2913a7cd055791a93a885f2e5f37e684';
+  static const _apiKey = Environment.API_KEY;
 
   static String imageUrl(String path) => _imageUrl + path;
 

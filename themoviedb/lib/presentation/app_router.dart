@@ -4,6 +4,7 @@ import 'package:themoviedb/constants/strings.dart';
 import 'package:themoviedb/cubit/movie_detail/movie_detail_cubit.dart';
 import 'package:themoviedb/cubit/movies/movies_cubit.dart';
 import 'package:themoviedb/data/api_client.dart';
+import 'package:themoviedb/data/models/credits.dart';
 import 'package:themoviedb/data/repository.dart';
 import 'package:themoviedb/presentation/screens/actors_list_screen.dart';
 import 'package:themoviedb/presentation/screens/movie_details_screen.dart';
@@ -18,7 +19,9 @@ class AppRouter {
   AppRouter() {
     repository = Repository(apiClient: ApiClient());
     moviesCubit = MoviesCubit(repository: repository);
-    movieDetailCubit = MovieDetailCubit(repository: repository,);
+    movieDetailCubit = MovieDetailCubit(
+      repository: repository,
+    );
   }
 
   Route generateRoute(RouteSettings settings) {
@@ -40,7 +43,12 @@ class AppRouter {
           ),
         );
       case ACTORS_LIST_SCREEN:
-        return MaterialPageRoute(builder: (_) => ActorsListScreen());
+        final arguments = settings.arguments;
+        final credits = arguments is Credits ? arguments : null;
+        return MaterialPageRoute(
+            builder: (_) => ActorsListScreen(
+                  credits: credits!,
+                ));
       default:
         return MaterialPageRoute(builder: (_) => UnknownScreen());
     }
