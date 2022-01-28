@@ -8,9 +8,9 @@ class CastCrewInitialState extends CastCrewState {}
 class CastCrewLoadingState extends CastCrewState {}
 
 class CastCrewLoadedState extends CastCrewState {
-  final Credits credits;
+  final List<CastCrewUIModel> castCrewUI;
 
-  CastCrewLoadedState({required this.credits}) : assert(credits != null);
+  CastCrewLoadedState({required this.castCrewUI}) : assert(castCrewUI != null);
 }
 
 class CastCrewErrorState extends CastCrewState {}

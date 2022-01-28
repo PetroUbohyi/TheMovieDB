@@ -1,0 +1,22 @@
+Index: lib/cubit/movie_detail/movie_detail_state.dart
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/lib/cubit/movie_detail/movie_detail_state.dart b/lib/cubit/movie_detail/movie_detail_state.dart
+--- a/lib/cubit/movie_detail/movie_detail_state.dart	(date 1643294399540)
++++ b/lib/cubit/movie_detail/movie_detail_state.dart	(date 1643294399540)
+@@ -9,10 +9,10 @@
+ 
+ class MovieDetailLoadedState extends MovieDetailState {
+   final MovieDetails movieDetails;
+-  final Credits credits;
++  final List<UICastCrew> uiCastCrew;
+ 
+-  MovieDetailLoadedState({required this.credits, required this.movieDetails})
+-      : assert(movieDetails != null, credits != null);
++  MovieDetailLoadedState({required this.uiCastCrew, required this.movieDetails})
++      : assert(movieDetails != null, uiCastCrew != null);
+ }
+ 
+ class MoviesErrorState extends MovieDetailState {}

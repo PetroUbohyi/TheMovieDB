@@ -1,12 +1,12 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:themoviedb/data/models/movie.dart';
-import 'package:themoviedb/data/repository.dart';
+import 'package:themoviedb/data/movie_repository.dart';
 
 part 'movies_state.dart';
 
 class MoviesCubit extends Cubit<MoviesState> {
-  final Repository repository;
+  final MovieRepository repository;
 
   MoviesCubit({required this.repository}) : super(MoviesInitialState());
 

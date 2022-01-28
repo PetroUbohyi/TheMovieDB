@@ -14,6 +14,7 @@ class MovieDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     BlocProvider.of<MovieDetailCubit>(context).getDetailsMovie(movieId);
+    BlocProvider.of<MovieDetailCubit>(context).checkUIModel(movieId);
 
     return BlocBuilder<MovieDetailCubit, MovieDetailState>(
         builder: (context, state) {
@@ -278,12 +279,12 @@ class _TopBilledCastWidget extends StatelessWidget {
     var cast = castAndCrew.cast;
     final isDark =
         Theme.of(context).iconTheme.color == Colors.white ? false : true;
-    final colorBox = isDark ? Colors.black : Colors.white;
+    final colorBox = isDark ? Colors.grey.withOpacity(0.2) : Colors.white;
     final textColor = isDark ? Colors.white : Colors.black;
     return Padding(
       padding: const EdgeInsets.only(left: 10.0),
       child: ColoredBox(
-        color: colorBox,
+        color: Colors.black,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -350,7 +351,8 @@ class _TopBilledCastWidget extends StatelessWidget {
                                   children: [
                                     Text(
                                       name,
-                                      style: TextStyle(fontSize: 13,color: textColor),
+                                      style: TextStyle(
+                                          fontSize: 13, color: textColor),
                                       maxLines: 2,
                                       overflow: TextOverflow.ellipsis,
                                     ),
@@ -380,12 +382,12 @@ class _TopBilledCastWidget extends StatelessWidget {
               child: TextButton(
                 onPressed: () {
                   Navigator.of(context)
-                      .pushNamed(ACTORS_LIST_SCREEN, arguments: castAndCrew);
+                      .pushNamed(ACTORS_LIST_SCREEN, arguments: movieId);
                 },
                 child: Text(
                   "Full Cast & Crew",
-                  style: TextStyle(
-                      color: textColor, fontWeight: FontWeight.w700),
+                  style:
+                      TextStyle(color: textColor, fontWeight: FontWeight.w700),
                 ),
               ),
             )

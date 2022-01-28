@@ -2,12 +2,12 @@ import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:themoviedb/data/models/credits.dart';
 import 'package:themoviedb/data/models/movie_details.dart';
-import 'package:themoviedb/data/repository.dart';
+import 'package:themoviedb/data/movie_repository.dart';
 
 part 'movie_detail_state.dart';
 
 class MovieDetailCubit extends Cubit<MovieDetailState> {
-  final Repository repository;
+  final MovieRepository repository;
 
   MovieDetailCubit({required this.repository}) : super(MoviesInitialState());
 
@@ -18,5 +18,9 @@ class MovieDetailCubit extends Cubit<MovieDetailState> {
       emit(
           MovieDetailLoadedState(movieDetails: movieDetails, credits: credits));
     });
+  }
+
+  void checkUIModel(int movieId) async {
+    await repository.mapCreditsToCastCrewUIModel(movieId);
   }
 }
