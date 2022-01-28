@@ -20,7 +20,4 @@ class MovieDetailCubit extends Cubit<MovieDetailState> {
     });
   }
 
-  void checkUIModel(int movieId) async {
-    await repository.mapCreditsToCastCrewUIModel(movieId);
-  }
 }

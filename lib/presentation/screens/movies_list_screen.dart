@@ -6,10 +6,11 @@ import 'package:themoviedb/data/api_client.dart';
 
 class MoviesListScreen extends StatelessWidget {
   const MoviesListScreen({Key? key}) : super(key: key);
+  final filter = 'top_rated';
 
   @override
   Widget build(BuildContext context) {
-    BlocProvider.of<MoviesCubit>(context).fetchMovies();
+    BlocProvider.of<MoviesCubit>(context).loadMovies(filter);
     final text = '';
     return Scaffold(
       appBar: AppBar(
@@ -35,6 +36,8 @@ class MoviesListScreen extends StatelessWidget {
                     itemCount: movies.length,
                     itemExtent: 200,
                     itemBuilder: (BuildContext context, int index) {
+                      BlocProvider.of<MoviesCubit>(context)
+                          .showedMovieAtIndex(index, filter);
                       final movie = movies[index];
                       final posterPath = movie.posterPath;
                       return Padding(

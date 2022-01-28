@@ -3,14 +3,15 @@ import 'package:themoviedb/data/models/CastCrewUIModel.dart';
 import 'package:themoviedb/data/models/credits.dart';
 import 'package:themoviedb/data/models/movie.dart';
 import 'package:themoviedb/data/models/movie_details.dart';
+import 'package:themoviedb/data/models/movie_response.dart';
 
 class MovieRepository {
   final ApiClient apiClient;
 
   MovieRepository({required this.apiClient});
 
-  Future<List<Movie>> fetchMovie() async {
-    final movieList = apiClient.topRatedMovies();
+  Future<MovieResponse> fetchMovie(int page, String filter) async {
+    final movieList = apiClient.fetchMovies(page, filter);
     return movieList;
   }
 

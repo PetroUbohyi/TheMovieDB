@@ -14,7 +14,6 @@ class MovieDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     BlocProvider.of<MovieDetailCubit>(context).getDetailsMovie(movieId);
-    BlocProvider.of<MovieDetailCubit>(context).checkUIModel(movieId);
 
     return BlocBuilder<MovieDetailCubit, MovieDetailState>(
         builder: (context, state) {

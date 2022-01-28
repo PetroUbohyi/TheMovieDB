@@ -2,6 +2,7 @@ import 'package:themoviedb/data/models/credits.dart';
 import 'package:themoviedb/data/models/movie.dart';
 import 'package:dio/dio.dart';
 import 'package:themoviedb/data/models/movie_details.dart';
+import 'package:themoviedb/data/models/movie_response.dart';
 import 'package:themoviedb/enviroment/enviroment.dart';
 
 class ApiClient {
@@ -13,13 +14,16 @@ class ApiClient {
 
   var _dio = Dio();
 
-  Future<List<Movie>> topRatedMovies() async {
+  Future<MovieResponse> fetchMovies(int page, String filter) async {
     try {
-      final url = '$_host/movie/top_rated?api_key=$_apiKey';
-      final response = await _dio.get(url);
-      var movies = await response.data['results'] as List;
-      List<Movie> movieList = movies.map((v) => Movie.fromJson(v)).toList();
-      return movieList;
+      final url = '$_host/movie/$filter?api_key=$_apiKey';
+      final parameters = <String, dynamic>{
+        'page': page,
+      };
+      final response = await _dio.get(url, queryParameters: parameters);
+      var movies = await response.data as Map<String, dynamic>;
+      MovieResponse result = MovieResponse.fromJson(movies);
+      return result;
     } catch (e) {
       throw Exception('Exception with error: $e');
     }
