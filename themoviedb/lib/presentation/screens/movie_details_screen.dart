@@ -284,7 +284,7 @@ class _TopBilledCastWidget extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(left: 10.0),
       child: ColoredBox(
-        color: Colors.black,
+        color: isDark ? Colors.black : Colors.white,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

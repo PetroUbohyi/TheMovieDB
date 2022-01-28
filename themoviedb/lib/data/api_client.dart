@@ -5,9 +5,9 @@ import 'package:themoviedb/data/models/movie_details.dart';
 import 'package:themoviedb/enviroment/enviroment.dart';
 
 class ApiClient {
-  static const _host = 'https://api.themoviedb.org/3';
-  static const _imageUrl = 'https://image.tmdb.org/t/p/w500';
+  static const _host = Environment.HOST;
   static const _apiKey = Environment.API_KEY;
+  static const _imageUrl = 'https://image.tmdb.org/t/p/w500';
 
   static String imageUrl(String path) => _imageUrl + path;
 

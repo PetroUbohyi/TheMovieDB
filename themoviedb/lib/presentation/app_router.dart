@@ -12,19 +12,16 @@ import 'package:themoviedb/presentation/screens/movies_list_screen.dart';
 import 'package:themoviedb/presentation/screens/unknown_screen.dart';
 
 class AppRouter {
-  late MovieRepository repository;
-  late MoviesCubit moviesCubit;
-  late MovieDetailCubit movieDetailCubit;
-  late CastCrewCubit castCrewCubit;
+  final MovieRepository repository;
+  final MoviesCubit moviesCubit;
+  final MovieDetailCubit movieDetailCubit;
+  final CastCrewCubit castCrewCubit;
 
-  AppRouter() {
-    repository = MovieRepository(apiClient: ApiClient());
-    moviesCubit = MoviesCubit(repository: repository);
-    movieDetailCubit = MovieDetailCubit(
-      repository: repository,
-    );
-    castCrewCubit = CastCrewCubit(repository: repository);
-  }
+  AppRouter(
+      {required this.repository,
+      required this.moviesCubit,
+      required this.movieDetailCubit,
+      required this.castCrewCubit}) {}
 
   Route generateRoute(RouteSettings settings) {
     switch (settings.name) {
