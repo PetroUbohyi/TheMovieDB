@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:themoviedb/constants/strings.dart';
 import 'package:themoviedb/cubit/movies/movies_cubit.dart';
 import 'package:themoviedb/data/api_client.dart';
+import 'package:themoviedb/theme/app_colors.dart';
 
 class MoviesListScreen extends StatefulWidget {
   const MoviesListScreen({Key? key}) : super(key: key);
@@ -12,7 +13,7 @@ class MoviesListScreen extends StatefulWidget {
 }
 
 class _MoviesListScreenState extends State<MoviesListScreen> {
-  final filter = 'top_rated';
+  var filter = 'top_rated';
 
   @override
   void initState() {
@@ -24,6 +25,28 @@ class _MoviesListScreenState extends State<MoviesListScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('TMDB'),
+        actions: [
+          DropdownButton(
+              dropdownColor: AppColors.mainAppColor,
+              value: filter == 'popular' ? 'Popular' : 'Top Rated',
+              style: TextStyle(color: Colors.white),
+              elevation: 16,
+              items: <String>['Popular', 'Top Rated']
+                  .map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem(
+                  child: Text(
+                    value,
+                  ),
+                  value: value,
+                );
+              }).toList(),
+              onChanged: (String? newValue) {
+                setState(() {
+                  filter = newValue! == "Popular" ? 'popular' : 'top_rated';
+                  BlocProvider.of<MoviesCubit>(context).filterSelected(filter);
+                });
+              }),
+        ],
       ),
       body: BlocBuilder<MoviesCubit, MoviesState>(
         builder: (context, state) {

@@ -43,4 +43,11 @@ class MoviesCubit extends Cubit<MoviesState> {
     }
     loadMovies(filter);
   }
+
+  void filterSelected(String filter) {
+    _currentPage = 0;
+    _totalPage = 1;
+    _movies.clear();
+    loadMovies(filter);
+  }
 }
