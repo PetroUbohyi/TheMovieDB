@@ -4,14 +4,23 @@ import 'package:themoviedb/constants/strings.dart';
 import 'package:themoviedb/cubit/movies/movies_cubit.dart';
 import 'package:themoviedb/data/api_client.dart';
 
-class MoviesListScreen extends StatelessWidget {
+class MoviesListScreen extends StatefulWidget {
   const MoviesListScreen({Key? key}) : super(key: key);
+
+  @override
+  State<MoviesListScreen> createState() => _MoviesListScreenState();
+}
+
+class _MoviesListScreenState extends State<MoviesListScreen> {
   final filter = 'top_rated';
 
   @override
-  Widget build(BuildContext context) {
+  void initState() {
     BlocProvider.of<MoviesCubit>(context).loadMovies(filter);
-    final text = '';
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('TMDB'),

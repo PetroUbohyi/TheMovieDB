@@ -21,7 +21,9 @@ class MoviesCubit extends Cubit<MoviesState> {
   }
 
   Future<void> loadMovies(String filter) async {
-    emit(MoviesLoadingState());
+    if (_movies.length == 0) {
+      emit(MoviesLoadingState());
+    }
     if (_currentPage >= _totalPage) return;
     final nextPage = _currentPage + 1;
     try {
@@ -31,11 +33,14 @@ class MoviesCubit extends Cubit<MoviesState> {
       _totalPage = movieResponse.totalPages;
       print("MOVIESSSS: ${_movies.length}");
       emit(MoviesLoadedState(movies: _movies));
-    } catch (e) {}
+    } catch (e) {
+    }
   }
 
   void showedMovieAtIndex(int index, String filter) {
-    if (index < _movies.length - 1) return;
+    if (index < _movies.length - 1) {
+        return;
+    }
     loadMovies(filter);
   }
 }
