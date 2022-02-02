@@ -5,15 +5,16 @@ import 'package:themoviedb/cubit/movie_detail/movie_detail_cubit.dart';
 import 'package:themoviedb/data/api_client.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:themoviedb/data/models/credits.dart';
+import 'package:themoviedb/data/models/movie.dart';
 
 class MovieDetailsScreen extends StatelessWidget {
-  final int movieId;
+  final Movie? movie;
 
-  const MovieDetailsScreen({Key? key, required this.movieId}) : super(key: key);
+  const MovieDetailsScreen({Key? key, required this.movie}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    BlocProvider.of<MovieDetailCubit>(context).getDetailsMovie(movieId);
+    BlocProvider.of<MovieDetailCubit>(context).getDetailsMovie(movie!.id);
 
     return BlocBuilder<MovieDetailCubit, MovieDetailState>(
         builder: (context, state) {
@@ -66,7 +67,7 @@ class MovieDetailsScreen extends StatelessWidget {
               _TopBilledCastWidget(
                 castAndCrew: castAndCrew,
                 posterPath: movieDetails.posterPath!,
-                movieId: movieId,
+                movieId: movie!.id,
               ),
             ],
           ),
