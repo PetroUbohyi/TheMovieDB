@@ -25,12 +25,16 @@ class MovieRepository {
     return castAndCrewList;
   }
 
+  Future<MovieResponse> searchMovie(int page, String query) async {
+    final movieList = await apiClient.searchMovie(page, query);
+    return movieList;
+  }
+
   Future<List<CastCrewUIModel>> mapCreditsToCastCrewUIModel(int movieId) async {
     final credits = await apiClient.getCastAndCrew(movieId);
     List<CastCrewUIModel> castCrewUIList = [];
     var castList = credits.cast;
     var crewList = credits.crew;
-    print('LENGHT CREDITS: ${castList.length + crewList.length}');
     for (var i = 0; i < castList.length; i++) {
       var networkCastModel = castList[i];
       var uiCastModel = CastCrewUIModel(
@@ -50,7 +54,6 @@ class MovieRepository {
           characterOrDepartment: networkCrewModel.department);
       castCrewUIList.add(uiCrewModel);
     }
-    print("LENGHT CAST CREW LIST UI: ${castCrewUIList.length}");
     return castCrewUIList;
   }
 }

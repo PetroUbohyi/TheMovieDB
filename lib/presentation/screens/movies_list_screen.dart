@@ -43,7 +43,7 @@ class _MoviesListScreenState extends State<MoviesListScreen> {
               onChanged: (String? newValue) {
                 setState(() {
                   filter = newValue! == "Popular" ? 'popular' : 'top_rated';
-                  BlocProvider.of<MoviesCubit>(context).filterSelected(filter);
+                  BlocProvider.of<MoviesCubit>(context).resetList(filter);
                 });
               }),
         ],
@@ -167,6 +167,8 @@ class _MoviesListScreenState extends State<MoviesListScreen> {
                 Padding(
                   padding: const EdgeInsets.all(10),
                   child: TextField(
+                    onChanged:
+                        BlocProvider.of<MoviesCubit>(context).searchMovie,
                     decoration: InputDecoration(
                       filled: true,
                       fillColor: Colors.white.withAlpha(235),
@@ -187,92 +189,3 @@ class _MoviesListScreenState extends State<MoviesListScreen> {
   }
 }
 
-/*
-ListView.builder(
-              padding: EdgeInsets.only(top: 70),
-              itemCount: 10,
-              itemExtent: 200,
-              itemBuilder: (BuildContext context, int index) {
-                return Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                  child: Stack(
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          border:
-                              Border.all(color: Colors.black.withOpacity(0.2)),
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.1),
-                              blurRadius: 8,
-                              offset: Offset(0, 2),
-                            )
-                          ],
-                        ),
-                        clipBehavior: Clip.hardEdge,
-                        child: Row(
-                          children: [
-                            Image(
-                                image:
-                                    AssetImage('assets/images/spider_man.jpg')),
-                            SizedBox(
-                              width: 15,
-                            ),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  SizedBox(
-                                    height: 20,
-                                  ),
-                                  Text(
-                                    title,
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  Text(
-                                    releaseDate,
-                                    style: TextStyle(color: Colors.grey),
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                  SizedBox(
-                                    height: 20,
-                                  ),
-                                  Text(
-                                    description,
-                                    maxLines: 4,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ],
-                              ),
-                            ),
-                            SizedBox(
-                              width: 10,
-                            )
-                          ],
-                        ),
-                      ),
-                      Material(
-                        color: Colors.transparent,
-                        child: InkWell(
-                          onTap: () {
-                            Navigator.of(context)
-                                .pushNamed(MOVIE_DETAILS_SCREEN);
-                          },
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
-                        ),
-                      )
-                    ],
-                  ),
-                );
-              });
- */

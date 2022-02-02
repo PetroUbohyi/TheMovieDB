@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:themoviedb/data/models/movie.dart';
@@ -11,17 +13,24 @@ class MoviesCubit extends Cubit<MoviesState> {
   final _movies = <Movie>[];
   int _currentPage = 0;
   int _totalPage = 1;
+  String? _searchQuery;
+  Timer? searchDelay;
 
   List<Movie> get movies => List.unmodifiable(_movies);
 
   MoviesCubit({required this.repository}) : super(MoviesInitialState());
 
   Future<MovieResponse> fetchMovies(int page, String filter) async {
-    return await repository.fetchMovie(page, filter);
+    final query = _searchQuery;
+    if (query == null) {
+      return await repository.fetchMovie(page, filter);
+    } else {
+      return repository.searchMovie(page, query);
+    }
   }
 
   Future<void> loadMovies(String filter) async {
-    if (_movies.length == 0) {
+    if (_movies.length == 0 && _searchQuery == null) {
       emit(MoviesLoadingState());
     }
     if (_currentPage >= _totalPage) return;
@@ -31,23 +40,35 @@ class MoviesCubit extends Cubit<MoviesState> {
       _movies.addAll(movieResponse.movies);
       _currentPage = movieResponse.page;
       _totalPage = movieResponse.totalPages;
-      print("MOVIESSSS: ${_movies.length}");
       emit(MoviesLoadedState(movies: _movies));
-    } catch (e) {
-    }
+    } catch (e) {}
   }
 
   void showedMovieAtIndex(int index, String filter) {
     if (index < _movies.length - 1) {
-        return;
+      return;
     }
     loadMovies(filter);
   }
 
-  void filterSelected(String filter) {
+  void resetList([String? filter]) {
     _currentPage = 0;
     _totalPage = 1;
     _movies.clear();
-    loadMovies(filter);
+    if (filter == null) {
+      loadMovies('top_rated');
+    } else {
+      loadMovies(filter);
+    }
+  }
+
+  Future<void> searchMovie(String text) async {
+    searchDelay?.cancel();
+    searchDelay = Timer(Duration(milliseconds: 300), () async {
+      final searchQuery = text.isNotEmpty ? text : null;
+      if (_searchQuery == searchQuery) return;
+      _searchQuery = searchQuery;
+      resetList('popular');
+    });
   }
 }

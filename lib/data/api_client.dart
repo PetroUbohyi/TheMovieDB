@@ -29,6 +29,21 @@ class ApiClient {
     }
   }
 
+  Future<MovieResponse> searchMovie(int page, String query) async {
+    try {
+      final url = '$_host/search/movie?api_key=$_apiKey';
+      final parameters = <String, dynamic>{
+        'query': query,
+      };
+      final response = await _dio.get(url, queryParameters: parameters);
+      var result = await response.data as Map<String, dynamic>;
+      MovieResponse moviesResult = MovieResponse.fromJson(result);
+      return moviesResult;
+    } catch (e) {
+      throw Exception("Exception with error: $e");
+    }
+  }
+
   Future<MovieDetails> detailsMovie(int movieId) async {
     try {
       final url = '$_host/movie/$movieId?api_key=$_apiKey';
