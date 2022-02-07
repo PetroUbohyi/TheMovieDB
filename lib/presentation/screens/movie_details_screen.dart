@@ -5,6 +5,7 @@ import 'package:themoviedb/data/api_client.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:themoviedb/data/models/credits.dart';
 import 'package:themoviedb/data/models/movie.dart';
+import 'package:transparent_image/transparent_image.dart';
 
 class MovieDetailsScreen extends StatelessWidget {
   final Movie? movie;
@@ -337,12 +338,18 @@ class _TopBilledCastWidget extends StatelessWidget {
                           child: Column(
                             children: [
                               profilePath != null
-                                  ? Image.network(
-                                      ApiClient.imageUrl(
-                                        cast[index].profilePath!,
-                                      ),
+                                  ? FadeInImage.memoryNetwork(
+                                      placeholder: kTransparentImage,
+                                      image: ApiClient.imageUrl(
+                                          cast[index].profilePath!),
                                       height: 156,
                                     )
+                                  // ? Image.network(
+                                  //     ApiClient.imageUrl(
+                                  //       cast[index].profilePath!,
+                                  //     ),
+                                  //     height: 156,
+                                  //   )
                                   : Container(
                                       height: 156,
                                       child: Center(
@@ -368,7 +375,7 @@ class _TopBilledCastWidget extends StatelessWidget {
                                       character,
                                       style: TextStyle(
                                           fontSize: 12, color: Colors.grey),
-                                      maxLines: 2,
+                                      maxLines: 3,
                                     )
                                   ],
                                 ),
