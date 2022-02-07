@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:themoviedb/constants/strings.dart';
 import 'package:themoviedb/cubit/movie_detail/movie_detail_cubit.dart';
 import 'package:themoviedb/data/api_client.dart';
 import 'package:percent_indicator/percent_indicator.dart';
@@ -9,8 +8,11 @@ import 'package:themoviedb/data/models/movie.dart';
 
 class MovieDetailsScreen extends StatelessWidget {
   final Movie? movie;
+  final ValueChanged<int> onTapped;
 
-  const MovieDetailsScreen({Key? key, required this.movie}) : super(key: key);
+  const MovieDetailsScreen(
+      {Key? key, required this.movie, required this.onTapped})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -65,6 +67,7 @@ class MovieDetailsScreen extends StatelessWidget {
                 height: 15,
               ),
               _TopBilledCastWidget(
+                onTapped: onTapped,
                 castAndCrew: castAndCrew,
                 posterPath: movieDetails.posterPath!,
                 movieId: movie!.id,
@@ -266,12 +269,14 @@ class _TopBilledCastWidget extends StatelessWidget {
   final String posterPath;
   final int movieId;
   final Credits castAndCrew;
+  final ValueChanged<int> onTapped;
 
   const _TopBilledCastWidget(
       {Key? key,
       required this.posterPath,
       required this.movieId,
-      required this.castAndCrew})
+      required this.castAndCrew,
+      required this.onTapped})
       : super(key: key);
 
   @override
@@ -381,8 +386,7 @@ class _TopBilledCastWidget extends StatelessWidget {
               padding: EdgeInsets.only(left: 10.0),
               child: TextButton(
                 onPressed: () {
-                  Navigator.of(context)
-                      .pushNamed(ACTORS_LIST_SCREEN, arguments: movieId);
+                  onTapped(movieId);
                 },
                 child: Text(
                   "Full Cast & Crew",

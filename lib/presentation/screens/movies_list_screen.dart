@@ -1,19 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:themoviedb/constants/strings.dart';
 import 'package:themoviedb/cubit/movies/movies_cubit.dart';
 import 'package:themoviedb/data/api_client.dart';
+import 'package:themoviedb/data/models/movie.dart';
 import 'package:themoviedb/theme/app_colors.dart';
 
 class MoviesListScreen extends StatefulWidget {
-  const MoviesListScreen({Key? key}) : super(key: key);
+  final ValueChanged<Movie> onTapped;
+
+  const MoviesListScreen({Key? key, required this.onTapped}) : super(key: key);
 
   @override
-  State<MoviesListScreen> createState() => _MoviesListScreenState();
+  State<MoviesListScreen> createState() =>
+      _MoviesListScreenState(onTapped: onTapped);
 }
 
 class _MoviesListScreenState extends State<MoviesListScreen> {
   var filter = 'top_rated';
+  final ValueChanged<Movie> onTapped;
+
+  _MoviesListScreenState({required this.onTapped});
 
   @override
   void initState() {
@@ -57,7 +63,10 @@ class _MoviesListScreenState extends State<MoviesListScreen> {
           }
           if (state is MoviesLoadedState) {
             final movies = (state as MoviesLoadedState).movies;
-            final isDark = Theme.of(context).iconTheme.color == Colors.white
+            final isDark = Theme
+                .of(context)
+                .iconTheme
+                .color == Colors.white
                 ? false
                 : true;
             final textColor = isDark ? Colors.white : Colors.black;
@@ -79,11 +88,14 @@ class _MoviesListScreenState extends State<MoviesListScreen> {
                           children: [
                             Container(
                               decoration: BoxDecoration(
-                                color: Theme.of(context).iconTheme.color,
+                                color: Theme
+                                    .of(context)
+                                    .iconTheme
+                                    .color,
                                 border: Border.all(
                                     color: Colors.black.withOpacity(0.2)),
                                 borderRadius:
-                                    BorderRadius.all(Radius.circular(10)),
+                                BorderRadius.all(Radius.circular(10)),
                                 boxShadow: [
                                   BoxShadow(
                                     color: Colors.black.withOpacity(0.1),
@@ -97,9 +109,9 @@ class _MoviesListScreenState extends State<MoviesListScreen> {
                                 children: [
                                   posterPath != null
                                       ? Image.network(
-                                          ApiClient.imageUrl(posterPath),
-                                          width: 118.7,
-                                        )
+                                    ApiClient.imageUrl(posterPath),
+                                    width: 118.7,
+                                  )
                                       : SizedBox.shrink(),
                                   SizedBox(
                                     width: 15,
@@ -107,7 +119,7 @@ class _MoviesListScreenState extends State<MoviesListScreen> {
                                   Expanded(
                                     child: Column(
                                       crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      CrossAxisAlignment.start,
                                       children: [
                                         SizedBox(
                                           height: 20,
@@ -151,13 +163,10 @@ class _MoviesListScreenState extends State<MoviesListScreen> {
                               color: Colors.transparent,
                               child: InkWell(
                                 onTap: () {
-                                  final id = movie.id;
-                                  Navigator.of(context).pushNamed(
-                                      MOVIE_DETAILS_SCREEN,
-                                      arguments: id);
+                                  onTapped(movie);
                                 },
                                 borderRadius:
-                                    BorderRadius.all(Radius.circular(10)),
+                                BorderRadius.all(Radius.circular(10)),
                               ),
                             )
                           ],
@@ -168,7 +177,9 @@ class _MoviesListScreenState extends State<MoviesListScreen> {
                   padding: const EdgeInsets.all(10),
                   child: TextField(
                     onChanged:
-                        BlocProvider.of<MoviesCubit>(context).searchMovie,
+                    BlocProvider
+                        .of<MoviesCubit>(context)
+                        .searchMovie,
                     decoration: InputDecoration(
                       filled: true,
                       fillColor: Colors.white.withAlpha(235),
@@ -188,4 +199,3 @@ class _MoviesListScreenState extends State<MoviesListScreen> {
     );
   }
 }
-
