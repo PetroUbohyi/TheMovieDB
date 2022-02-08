@@ -23,14 +23,14 @@ class MovieRouteInformationParser
   @override
   RouteInformation? restoreRouteInformation(MovieRoutePath configuration) {
     if (configuration.isHomePage) {
-      return const RouteInformation(location: '/');
+      return const RouteInformation(location: '/movie');
     }
     if (configuration.isDetailsPage && !configuration.isActorsListPage) {
       return RouteInformation(location: '/movie/${configuration.id}');
     }
     if (configuration.isActorsListPage) {
       return RouteInformation(
-          location: '/movie/${configuration.id}/castCrewList');
+          location: '/movie/${configuration.id}/cast');
     }
     return null;
   }

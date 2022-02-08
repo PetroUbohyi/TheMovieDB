@@ -142,8 +142,8 @@ class _MovieTitleWidget extends StatelessWidget {
                     fontWeight: FontWeight.bold),
               ),
               TextSpan(
-                text: '($releaseDate)',
-                style: TextStyle(color: Colors.grey, fontSize: 16),
+                text: ' (${releaseDate.substring(0, 4)})',
+                style: TextStyle(color: Colors.grey, fontSize: 18.5),
               )
             ],
           ),
