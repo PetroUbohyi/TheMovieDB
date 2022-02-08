@@ -52,7 +52,7 @@ class MovieRouterDelegate extends RouterDelegate<MovieRoutePath>
             ),
           ),
         ),
-        if (_selectedMovie != null)
+        if (_selectedMovie != null && _selectedCastCrew == null)
           MaterialPage(
             child: BlocProvider.value(
               value: movieDetailCubit,
@@ -95,6 +95,10 @@ class MovieRouterDelegate extends RouterDelegate<MovieRoutePath>
   Future<void> setNewRoutePath(MovieRoutePath configuration) async {
     if (configuration.isDetailsPage) {
       _selectedMovie = moviesCubit.movies[configuration.id!];
+      _selectedCastCrew = null;
+    }
+    if (configuration.isActorsListPage) {
+      _selectedCastCrew = moviesCubit.movies[configuration.id!].id;
     }
   }
 

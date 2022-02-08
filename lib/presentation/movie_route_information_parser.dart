@@ -9,10 +9,9 @@ class MovieRouteInformationParser
     final uri = Uri.parse(routeInformation.location!);
 
     if (uri.pathSegments.length >= 3) {
-      var remainingCastCrewList = uri.pathSegments[2];
-      var remainingMovieId = uri.pathSegments[1];
+      var remaining = uri.pathSegments[1];
       return MovieRoutePath.castCrewList(
-          int.tryParse(remainingMovieId), int.tryParse(remainingCastCrewList));
+          int.tryParse(remaining), int.tryParse(remaining));
     } else if (uri.pathSegments.length == 2) {
       var remaining = uri.pathSegments[1];
       return MovieRoutePath.details(int.tryParse(remaining));
