@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:themoviedb/cubit/movie_detail/movie_detail_cubit.dart';
 import 'package:themoviedb/data/api_client.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:themoviedb/data/models/credits.dart';
 import 'package:themoviedb/data/models/movie.dart';
+import 'package:themoviedb/data/models/movie_details.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 class MovieDetailsScreen extends StatelessWidget {
@@ -57,6 +59,15 @@ class MovieDetailsScreen extends StatelessWidget {
                 voteAverage: movieDetails.voteAverage,
               ),
               Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: _GenresWidget(
+                  genres: movieDetails.genres,
+                  releaseDate: movieDetails.releaseDate,
+                  production: movieDetails.productionCountries,
+                  runtime: movieDetails.runtime,
+                ),
+              ),
+              Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
                 child: _TaglineWidget(tagLine: movieDetails.tagline),
@@ -81,6 +92,75 @@ class MovieDetailsScreen extends StatelessWidget {
         child: Text("Error state"),
       );
     });
+  }
+}
+
+class _GenresWidget extends StatelessWidget {
+  final List<Genre> genres;
+  final String? releaseDate;
+  final List<ProductionCountrie> production;
+  final int? runtime;
+
+  String durationToString(int minutes) {
+    var d = Duration(minutes: minutes);
+    List<String> parts = d.toString().split(':');
+    return ' ${parts[0].padLeft(2, '0')}h ${parts[1].padLeft(2, '0')}m';
+  }
+
+  const _GenresWidget(
+      {Key? key,
+      required this.genres,
+      required this.releaseDate,
+      required this.production,
+      required this.runtime})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final finalGenre = genres.last.name;
+    final release =
+        "${releaseDate!.substring(5, 7)}/${releaseDate!.substring(8, 10)}/${releaseDate!.substring(0, 4)}";
+    final runtimeResult = durationToString(runtime!);
+    return ColoredBox(
+      color: Colors.black.withOpacity(0.7),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                release,
+                style: TextStyle(color: Colors.white),
+              ),
+              for (var prod in production)
+                Text(
+                  ' (${prod.iso})',
+                  style: TextStyle(color: Colors.white),
+                ),
+              Text(
+                runtimeResult,
+                style: TextStyle(color: Colors.white),
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              for (var genre in genres)
+                finalGenre != genre.name
+                    ? Text(
+                        '${genre.name}, ',
+                        style: TextStyle(color: Colors.white),
+                      )
+                    : Text(
+                        '${genre.name}',
+                        style: TextStyle(color: Colors.white),
+                      ),
+            ],
+          ),
+        ],
+      ),
+    );
   }
 }
 

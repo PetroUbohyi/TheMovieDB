@@ -12,12 +12,13 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   ApiClient apiClient = ApiClient();
   MovieRepository movieRepository = MovieRepository(apiClient: apiClient);
-  runApp(TheMovieDBApp(
+  final app = TheMovieDBApp(
     routerDelegate: MovieRouterDelegate(
         moviesCubit: MoviesCubit(repository: movieRepository),
         movieDetailCubit: MovieDetailCubit(repository: movieRepository),
         castCrewCubit: CastCrewCubit(repository: movieRepository)),
-  ));
+  );
+  runApp(app);
 }
 
 class TheMovieDBApp extends StatelessWidget {
