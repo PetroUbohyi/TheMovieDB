@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:themoviedb/data/models/movie_model/movie.dart';
+import 'package:themoviedb/locator.dart';
 import 'package:themoviedb/presentation/screens/actors_list_screen/actors_list_screen.dart';
 import 'package:themoviedb/presentation/screens/movie_details_screen/movie_details_screen.dart';
 import 'package:themoviedb/presentation/navigator/movie_route_path.dart';
@@ -17,15 +18,11 @@ class MovieRouterDelegate extends RouterDelegate<MovieRoutePath>
 
   Movie? _selectedMovie;
   int? _selectedCastCrew;
-  final MoviesCubit moviesCubit;
-  final MovieDetailCubit movieDetailCubit;
-  final CastCrewCubit castCrewCubit;
+  final MoviesCubit _moviesCubit = locator.get<MoviesCubit>();
+  final MovieDetailCubit _movieDetailCubit = locator.get<MovieDetailCubit>();
+  final CastCrewCubit _castCrewCubit = locator.get<CastCrewCubit>();
 
-  MovieRouterDelegate(
-      {required this.castCrewCubit,
-      required this.movieDetailCubit,
-      required this.moviesCubit})
-      : navigatorKey = GlobalKey<NavigatorState>();
+  MovieRouterDelegate() : navigatorKey = GlobalKey<NavigatorState>();
 
   @override
   MovieRoutePath get currentConfiguration {
@@ -33,10 +30,10 @@ class MovieRouterDelegate extends RouterDelegate<MovieRoutePath>
       return MovieRoutePath.home();
     } else if (_selectedMovie != null && _selectedCastCrew == null) {
       return MovieRoutePath.details(
-          moviesCubit.movies.indexOf(_selectedMovie!));
+          _moviesCubit.movies.indexOf(_selectedMovie!));
     } else {
       return MovieRoutePath.castCrewList(
-          moviesCubit.movies.indexOf(_selectedMovie!), _selectedCastCrew);
+          _moviesCubit.movies.indexOf(_selectedMovie!), _selectedCastCrew);
     }
   }
 
@@ -47,7 +44,7 @@ class MovieRouterDelegate extends RouterDelegate<MovieRoutePath>
       pages: [
         MaterialPage(
           child: BlocProvider.value(
-            value: moviesCubit,
+            value: _moviesCubit,
             child: MoviesListScreen(
               onTapped: _handleMovieTapped,
             ),
@@ -56,7 +53,7 @@ class MovieRouterDelegate extends RouterDelegate<MovieRoutePath>
         if (_selectedMovie != null && _selectedCastCrew == null)
           MaterialPage(
             child: BlocProvider.value(
-              value: movieDetailCubit,
+              value: _movieDetailCubit,
               child: MovieDetailsScreen(
                 onTapped: _handleCastCrewTapped,
                 movie: _selectedMovie,
@@ -66,7 +63,7 @@ class MovieRouterDelegate extends RouterDelegate<MovieRoutePath>
         if (_selectedCastCrew != null)
           MaterialPage(
               child: BlocProvider.value(
-            value: castCrewCubit,
+            value: _castCrewCubit,
             child: ActorsListScreen(
               movieId: _selectedMovie!.id,
             ),
@@ -95,11 +92,11 @@ class MovieRouterDelegate extends RouterDelegate<MovieRoutePath>
   @override
   Future<void> setNewRoutePath(MovieRoutePath configuration) async {
     if (configuration.isDetailsPage) {
-      _selectedMovie = moviesCubit.movies[configuration.id!];
+      _selectedMovie = _moviesCubit.movies[configuration.id!];
       _selectedCastCrew = null;
     }
     if (configuration.isActorsListPage) {
-      _selectedCastCrew = moviesCubit.movies[configuration.id!].id;
+      _selectedCastCrew = _moviesCubit.movies[configuration.id!].id;
     }
   }
 

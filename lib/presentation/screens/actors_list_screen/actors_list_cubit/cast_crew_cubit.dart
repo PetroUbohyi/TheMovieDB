@@ -2,13 +2,14 @@ import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:themoviedb/data/models/credits_model/CastCrewUIModel.dart';
 import 'package:themoviedb/data/networking/movie_repository.dart';
+import 'package:themoviedb/locator.dart';
 
 part 'cast_crew_state.dart';
 
 class CastCrewCubit extends Cubit<CastCrewState> {
-  final MovieRepository repository;
+  CastCrewCubit() : super(CastCrewInitialState());
 
-  CastCrewCubit({required this.repository}) : super(CastCrewInitialState());
+  final MovieRepository _repository = locator.get<MovieRepository>();
 
   void fetchCastCrew(int movieId) async {
     emit(CastCrewLoadingState());
@@ -18,7 +19,7 @@ class CastCrewCubit extends Cubit<CastCrewState> {
   }
 
   Future<List<CastCrewUIModel>> mapCreditsToCastCrewUIModel(int movieId) async {
-    final credits = await repository.getCastAndCrew(movieId);
+    final credits = await _repository.getCastAndCrew(movieId);
     List<CastCrewUIModel> castCrewUIList = [];
     List<CastCrewUIModel> castUIList = credits.cast.map((networkCastModel) {
       return CastCrewUIModel(

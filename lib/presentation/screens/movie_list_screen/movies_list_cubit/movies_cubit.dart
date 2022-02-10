@@ -6,26 +6,28 @@ import 'package:themoviedb/data/models/movie_model/movie.dart';
 import 'package:themoviedb/data/models/movie_response_model/movie_response.dart';
 import 'package:themoviedb/data/networking/movie_repository.dart';
 
+import '../../../../locator.dart';
+
 part 'movies_state.dart';
 
 class MoviesCubit extends Cubit<MoviesState> {
-  final MovieRepository repository;
   final _movies = <Movie>[];
   int _currentPage = 0;
   int _totalPage = 1;
   String? _searchQuery;
   Timer? searchDelay;
+  final MovieRepository _movieRepository = locator.get<MovieRepository>();
 
   List<Movie> get movies => List.unmodifiable(_movies);
 
-  MoviesCubit({required this.repository}) : super(MoviesInitialState());
+  MoviesCubit() : super(MoviesInitialState());
 
   Future<MovieResponse> fetchMovies(int page, String filter) async {
     final query = _searchQuery;
     if (query == null) {
-      return repository.fetchMovie(page, filter);
+      return _movieRepository.fetchMovie(page, filter);
     } else {
-      return repository.searchMovie(page, query);
+      return _movieRepository.searchMovie(page, query);
     }
   }
 

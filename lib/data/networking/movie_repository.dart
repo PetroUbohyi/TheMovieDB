@@ -3,20 +3,20 @@ import 'package:themoviedb/data/models/credits_model/credits.dart';
 import 'package:themoviedb/data/models/movie_details_model/movie_details.dart';
 import 'package:themoviedb/data/models/movie_response_model/movie_response.dart';
 
-class MovieRepository {
-  final ApiClient apiClient;
+import '../../locator.dart';
 
-  MovieRepository({required this.apiClient});
+class MovieRepository {
+  MovieRepository();
 
   Future<MovieResponse> fetchMovie(int page, String filter) =>
-      apiClient.fetchMovies(page, filter);
+      locator.get<ApiClient>().fetchMovies(page, filter);
 
   Future<MovieDetails> getMovieDetail(int movieId) =>
-      apiClient.detailsMovie(movieId);
+      locator.get<ApiClient>().detailsMovie(movieId);
 
   Future<Credits> getCastAndCrew(int movieId) =>
-      apiClient.getCastAndCrew(movieId);
+      locator.get<ApiClient>().getCastAndCrew(movieId);
 
   Future<MovieResponse> searchMovie(int page, String query) =>
-      apiClient.searchMovie(page, query);
+      locator.get<ApiClient>().searchMovie(page, query);
 }
