@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:themoviedb/cubit/cast_crew/cast_crew_cubit.dart';
-import 'package:themoviedb/data/api_client.dart';
+import 'package:themoviedb/data/networking/api_client.dart';
+
+import 'actors_list_cubit/cast_crew_cubit.dart';
 
 class ActorsListScreen extends StatelessWidget {
   final int movieId;

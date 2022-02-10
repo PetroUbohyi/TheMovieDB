@@ -1,8 +1,7 @@
-import 'package:themoviedb/data/models/credits.dart';
-import 'package:themoviedb/data/models/movie.dart';
+import 'package:themoviedb/data/models/credits_model/credits.dart';
 import 'package:dio/dio.dart';
-import 'package:themoviedb/data/models/movie_details.dart';
-import 'package:themoviedb/data/models/movie_response.dart';
+import 'package:themoviedb/data/models/movie_details_model/movie_details.dart';
+import 'package:themoviedb/data/models/movie_response_model/movie_response.dart';
 import 'package:themoviedb/enviroment/enviroment.dart';
 
 class ApiClient {

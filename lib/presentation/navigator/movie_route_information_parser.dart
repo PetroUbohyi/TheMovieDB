@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:themoviedb/presentation/movie_route_path.dart';
+import 'package:themoviedb/presentation/navigator/movie_route_path.dart';
 
 class MovieRouteInformationParser
     extends RouteInformationParser<MovieRoutePath> {

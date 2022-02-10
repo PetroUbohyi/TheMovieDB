@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
-import 'package:themoviedb/data/models/movie.dart';
-import 'package:themoviedb/data/models/movie_response.dart';
-import 'package:themoviedb/data/movie_repository.dart';
+import 'package:themoviedb/data/models/movie_model/movie.dart';
+import 'package:themoviedb/data/models/movie_response_model/movie_response.dart';
+import 'package:themoviedb/data/networking/movie_repository.dart';
 
 part 'movies_state.dart';
 
@@ -23,7 +23,7 @@ class MoviesCubit extends Cubit<MoviesState> {
   Future<MovieResponse> fetchMovies(int page, String filter) async {
     final query = _searchQuery;
     if (query == null) {
-      return await repository.fetchMovie(page, filter);
+      return repository.fetchMovie(page, filter);
     } else {
       return repository.searchMovie(page, query);
     }

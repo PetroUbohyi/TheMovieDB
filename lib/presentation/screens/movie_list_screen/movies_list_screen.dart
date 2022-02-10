@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:themoviedb/cubit/movies/movies_cubit.dart';
-import 'package:themoviedb/data/api_client.dart';
-import 'package:themoviedb/data/models/movie.dart';
+import 'package:themoviedb/data/networking/api_client.dart';
+import 'package:themoviedb/data/models/movie_model/movie.dart';
 import 'package:themoviedb/theme/app_colors.dart';
+
+import 'movies_list_cubit/movies_cubit.dart';
 
 class MoviesListScreen extends StatefulWidget {
   final ValueChanged<Movie> onTapped;
