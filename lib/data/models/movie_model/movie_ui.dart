@@ -1,12 +1,12 @@
 class MovieUIModel {
-  final int movieId;
+  final int id;
   final String title;
   final String? posterPath;
   final String? releaseDate;
   final String overview;
 
   MovieUIModel(
-      {required this.movieId,
+      {required this.id,
       required this.title,
       required this.posterPath,
       required this.releaseDate,

@@ -53,7 +53,7 @@ class MoviesCubit extends Cubit<MoviesState> {
     List<MovieUIModel> movieUIList =
         _networkMoviesList.map((networkMovieModel) {
       return MovieUIModel(
-        movieId: networkMovieModel.id,
+        id: networkMovieModel.id,
         title: networkMovieModel.title,
         posterPath: networkMovieModel.posterPath,
         releaseDate: networkMovieModel.releaseDate,

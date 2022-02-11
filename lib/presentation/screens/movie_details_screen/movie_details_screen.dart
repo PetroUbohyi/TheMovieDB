@@ -20,7 +20,7 @@ class MovieDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    BlocProvider.of<MovieDetailCubit>(context).getDetailsMovie(movie!.movieId);
+    BlocProvider.of<MovieDetailCubit>(context).getDetailsMovie(movie!.id);
 
     return BlocBuilder<MovieDetailCubit, MovieDetailState>(
         builder: (context, state) {
@@ -83,7 +83,7 @@ class MovieDetailsScreen extends StatelessWidget {
                 onTapped: onTapped,
                 castAndCrew: castAndCrew,
                 posterPath: movieDetails.posterPath!,
-                movieId: movie!.movieId,
+                movieId: movie!.id,
               ),
             ],
           ),

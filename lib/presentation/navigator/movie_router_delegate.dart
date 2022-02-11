@@ -65,7 +65,7 @@ class MovieRouterDelegate extends RouterDelegate<MovieRoutePath>
               child: BlocProvider.value(
             value: _castCrewCubit,
             child: ActorsListScreen(
-              movieId: _selectedMovie!.movieId,
+              movieId: _selectedMovie!.id,
             ),
           ))
       ],
@@ -96,7 +96,7 @@ class MovieRouterDelegate extends RouterDelegate<MovieRoutePath>
       _selectedCastCrew = null;
     }
     if (configuration.isActorsListPage) {
-      _selectedCastCrew = _moviesCubit.movies[configuration.id!].movieId;
+      _selectedCastCrew = _moviesCubit.movies[configuration.id!].id;
     }
   }
 
