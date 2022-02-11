@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:themoviedb/data/models/movie_model/movie_ui.dart';
 import 'package:themoviedb/data/networking/api_client.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:themoviedb/data/models/credits_model/credits.dart';
-import 'package:themoviedb/data/models/movie_model/movie.dart';
 import 'package:themoviedb/data/models/movie_details_model/movie_details.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 import 'movie_details_cubit/movie_detail_cubit.dart';
 
 class MovieDetailsScreen extends StatelessWidget {
-  final Movie? movie;
+  final MovieUIModel? movie;
   final ValueChanged<int> onTapped;
 
   const MovieDetailsScreen(
@@ -20,7 +20,7 @@ class MovieDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    BlocProvider.of<MovieDetailCubit>(context).getDetailsMovie(movie!.id);
+    BlocProvider.of<MovieDetailCubit>(context).getDetailsMovie(movie!.movieId);
 
     return BlocBuilder<MovieDetailCubit, MovieDetailState>(
         builder: (context, state) {
@@ -83,7 +83,7 @@ class MovieDetailsScreen extends StatelessWidget {
                 onTapped: onTapped,
                 castAndCrew: castAndCrew,
                 posterPath: movieDetails.posterPath!,
-                movieId: movie!.id,
+                movieId: movie!.movieId,
               ),
             ],
           ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:themoviedb/data/models/movie_model/movie.dart';
+import 'package:themoviedb/data/models/movie_model/movie_ui.dart';
 import 'package:themoviedb/locator.dart';
 import 'package:themoviedb/presentation/screens/actors_list_screen/actors_list_screen.dart';
 import 'package:themoviedb/presentation/screens/movie_details_screen/movie_details_screen.dart';
@@ -16,7 +16,7 @@ class MovieRouterDelegate extends RouterDelegate<MovieRoutePath>
   @override
   final GlobalKey<NavigatorState> navigatorKey;
 
-  Movie? _selectedMovie;
+  MovieUIModel? _selectedMovie;
   int? _selectedCastCrew;
   final MoviesCubit _moviesCubit = locator.get<MoviesCubit>();
   final MovieDetailCubit _movieDetailCubit = locator.get<MovieDetailCubit>();
@@ -65,7 +65,7 @@ class MovieRouterDelegate extends RouterDelegate<MovieRoutePath>
               child: BlocProvider.value(
             value: _castCrewCubit,
             child: ActorsListScreen(
-              movieId: _selectedMovie!.id,
+              movieId: _selectedMovie!.movieId,
             ),
           ))
       ],
@@ -96,11 +96,11 @@ class MovieRouterDelegate extends RouterDelegate<MovieRoutePath>
       _selectedCastCrew = null;
     }
     if (configuration.isActorsListPage) {
-      _selectedCastCrew = _moviesCubit.movies[configuration.id!].id;
+      _selectedCastCrew = _moviesCubit.movies[configuration.id!].movieId;
     }
   }
 
-  void _handleMovieTapped(Movie movie) {
+  void _handleMovieTapped(MovieUIModel movie) {
     _selectedMovie = movie;
     notifyListeners();
   }

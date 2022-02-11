@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
-import 'package:themoviedb/data/models/movie_model/movie.dart';
+import 'package:themoviedb/data/models/movie_model/movie_ui.dart';
 import 'package:themoviedb/data/models/movie_response_model/movie_response.dart';
 import 'package:themoviedb/data/networking/movie_repository.dart';
 
@@ -11,14 +11,14 @@ import '../../../../locator.dart';
 part 'movies_state.dart';
 
 class MoviesCubit extends Cubit<MoviesState> {
-  final _movies = <Movie>[];
+  final _movies = <MovieUIModel>[];
   int _currentPage = 0;
   int _totalPage = 1;
   String? _searchQuery;
   Timer? searchDelay;
   final MovieRepository _movieRepository = locator.get<MovieRepository>();
 
-  List<Movie> get movies => List.unmodifiable(_movies);
+  List<MovieUIModel> get movies => List.unmodifiable(_movies);
 
   MoviesCubit() : super(MoviesInitialState());
 
@@ -38,12 +38,29 @@ class MoviesCubit extends Cubit<MoviesState> {
     if (_currentPage >= _totalPage) return;
     final nextPage = _currentPage + 1;
     try {
-      final movieResponse = await fetchMovies(nextPage, filter);
-      _movies.addAll(movieResponse.movies);
+      final movieResponse = await _movieRepository.fetchMovie(nextPage, filter);
+      final newMovies = await mapNetworkMovieModelToUIMovieModel(movieResponse);
+      _movies.addAll(newMovies);
       _currentPage = movieResponse.page;
       _totalPage = movieResponse.totalPages;
       emit(MoviesLoadedState(movies: _movies));
     } catch (e) {}
+  }
+
+  Future<List<MovieUIModel>> mapNetworkMovieModelToUIMovieModel(
+      MovieResponse movieResponse) async {
+    final _networkMoviesList = movieResponse.movies;
+    List<MovieUIModel> movieUIList =
+        _networkMoviesList.map((networkMovieModel) {
+      return MovieUIModel(
+        movieId: networkMovieModel.id,
+        title: networkMovieModel.title,
+        posterPath: networkMovieModel.posterPath,
+        releaseDate: networkMovieModel.releaseDate,
+        overview: networkMovieModel.overview,
+      );
+    }).toList();
+    return movieUIList;
   }
 
   void showedMovieAtIndex(int index, String filter) {

@@ -8,7 +8,7 @@ class MoviesInitialState extends MoviesState {}
 class MoviesLoadingState extends MoviesState {}
 
 class MoviesLoadedState extends MoviesState {
-  final List<Movie> movies;
+  final List<MovieUIModel> movies;
 
   MoviesLoadedState({required this.movies})
       : assert(movies != null);
