@@ -8,15 +8,17 @@ import '../../locator.dart';
 class MovieRepository {
   MovieRepository();
 
+  var _apiClient = locator.get<ApiClient>();
+
   Future<MovieResponse> fetchMovie(int page, String filter) =>
-      locator.get<ApiClient>().fetchMovies(page, filter);
+      _apiClient.fetchMovies(page, filter);
 
   Future<MovieDetails> getMovieDetail(int movieId) =>
-      locator.get<ApiClient>().detailsMovie(movieId);
+      _apiClient.detailsMovie(movieId);
 
   Future<Credits> getCastAndCrew(int movieId) =>
-      locator.get<ApiClient>().getCastAndCrew(movieId);
+      _apiClient.getCastAndCrew(movieId);
 
   Future<MovieResponse> searchMovie(int page, String query) =>
-      locator.get<ApiClient>().searchMovie(page, query);
+      _apiClient.searchMovie(page, query);
 }

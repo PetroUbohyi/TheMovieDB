@@ -8,9 +8,9 @@ import 'package:themoviedb/presentation/screens/movie_list_screen/movies_list_cu
 final locator = GetIt.instance;
 
 void setup() {
-  locator.registerSingleton<MovieRepository>(MovieRepository());
-  locator.registerSingleton<ApiClient>(ApiClient());
-  locator.registerSingleton<MoviesCubit>(MoviesCubit());
-  locator.registerSingleton<MovieDetailCubit>(MovieDetailCubit());
-  locator.registerSingleton<CastCrewCubit>(CastCrewCubit());
+  locator.registerLazySingleton<MovieRepository>(() => MovieRepository());
+  locator.registerLazySingleton<ApiClient>(() => ApiClient());
+  locator.registerLazySingleton<MoviesCubit>(() => MoviesCubit());
+  locator.registerLazySingleton<MovieDetailCubit>(() => MovieDetailCubit());
+  locator.registerLazySingleton<CastCrewCubit>(() => CastCrewCubit());
 }
