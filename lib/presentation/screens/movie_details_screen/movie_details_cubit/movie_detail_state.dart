@@ -8,7 +8,7 @@ class MoviesInitialState extends MovieDetailState {}
 class MovieDetailLoadingState extends MovieDetailState {}
 
 class MovieDetailLoadedState extends MovieDetailState {
-  final MovieDetails movieDetails;
+  final MovieDetailsUIModel movieDetails;
   final Credits credits;
 
   MovieDetailLoadedState({required this.credits, required this.movieDetails})
