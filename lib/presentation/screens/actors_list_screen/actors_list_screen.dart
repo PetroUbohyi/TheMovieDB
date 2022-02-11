@@ -27,7 +27,7 @@ class ActorsListScreen extends StatelessWidget {
         );
       }
       if (state is CastCrewLoadedState) {
-        final castCrewList = (state as CastCrewLoadedState).castCrewUI;
+        final castCrewList = state.castCrewUI;
         final isDark =
             Theme.of(context).iconTheme.color == Colors.white ? false : true;
         final colorBox = isDark ? Colors.grey.withOpacity(0.2) : Colors.white;

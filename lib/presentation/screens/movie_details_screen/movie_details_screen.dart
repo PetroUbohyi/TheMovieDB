@@ -36,8 +36,8 @@ class MovieDetailsScreen extends StatelessWidget {
         );
       }
       if (state is MovieDetailLoadedState) {
-        final movieDetails = (state as MovieDetailLoadedState).movieDetails;
-        final castAndCrew = (state as MovieDetailLoadedState).credits;
+        final movieDetails = state.movieDetails;
+        final castAndCrew = state.credits;
         return Scaffold(
           backgroundColor: Colors.black,
           appBar: AppBar(

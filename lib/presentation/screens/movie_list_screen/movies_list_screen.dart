@@ -63,7 +63,7 @@ class _MoviesListScreenState extends State<MoviesListScreen> {
             );
           }
           if (state is MoviesLoadedState) {
-            final movies = (state as MoviesLoadedState).movies;
+            final movies = state.movies;
             final isDark = Theme.of(context).iconTheme.color == Colors.white
                 ? false
                 : true;
@@ -88,15 +88,17 @@ class _MoviesListScreenState extends State<MoviesListScreen> {
                               decoration: BoxDecoration(
                                 color: Theme.of(context).iconTheme.color,
                                 border: Border.all(
-                                    color: Colors.black.withOpacity(0.2)),
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10)),
+                                  color: Colors.black.withOpacity(0.2),
+                                ),
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(10),
+                                ),
                                 boxShadow: [
                                   BoxShadow(
                                     color: Colors.black.withOpacity(0.1),
                                     blurRadius: 8,
                                     offset: Offset(0, 2),
-                                  )
+                                  ),
                                 ],
                               ),
                               clipBehavior: Clip.hardEdge,
