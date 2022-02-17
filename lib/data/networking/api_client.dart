@@ -2,16 +2,17 @@ import 'package:themoviedb/data/models/credits_model/credits.dart';
 import 'package:dio/dio.dart';
 import 'package:themoviedb/data/models/movie_details_model/movie_details.dart';
 import 'package:themoviedb/data/models/movie_response_model/movie_response.dart';
-import 'package:themoviedb/enviroment/enviroment.dart';
+
+import '../../environment/enviroment.dart';
 
 class ApiClient {
   static const _host = Environment.HOST;
   static const _apiKey = Environment.API_KEY;
   static const _imageUrl = 'https://image.tmdb.org/t/p/w500';
 
-  static String imageUrl(String path) => _imageUrl + path;
+  static String imageUrl(String? path) => _imageUrl + path!;
 
-  var _dio = Dio();
+  final _dio = Dio();
 
   Future<MovieResponse> fetchMovies(int page, String filter) async {
     try {
@@ -30,9 +31,10 @@ class ApiClient {
 
   Future<MovieResponse> searchMovie(int page, String query) async {
     try {
-      final url = '$_host/search/movie?api_key=$_apiKey';
+      const url = '$_host/search/movie?api_key=$_apiKey';
       final parameters = <String, dynamic>{
         'query': query,
+        'page': page,
       };
       final response = await _dio.get(url, queryParameters: parameters);
       var result = await response.data as Map<String, dynamic>;

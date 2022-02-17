@@ -24,6 +24,7 @@ class _MoviesListScreenState extends State<MoviesListScreen> {
 
   @override
   void initState() {
+    super.initState();
     BlocProvider.of<MoviesCubit>(context).loadMovies(filter);
   }
 
@@ -31,12 +32,12 @@ class _MoviesListScreenState extends State<MoviesListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('TMDB'),
+        title: const Text('TheMovieDB'),
         actions: [
           DropdownButton(
               dropdownColor: AppColors.mainAppColor,
               value: filter == 'popular' ? 'Popular' : 'Top Rated',
-              style: TextStyle(color: Colors.white),
+              style: const TextStyle(color: Colors.white),
               elevation: 16,
               items: <String>['Popular', 'Top Rated']
                   .map<DropdownMenuItem<String>>((String value) {
@@ -58,7 +59,7 @@ class _MoviesListScreenState extends State<MoviesListScreen> {
       body: BlocBuilder<MoviesCubit, MoviesState>(
         builder: (context, state) {
           if (state is MoviesLoadingState) {
-            return Center(
+            return const Center(
               child: CircularProgressIndicator(),
             );
           }
@@ -71,7 +72,7 @@ class _MoviesListScreenState extends State<MoviesListScreen> {
             return Stack(
               children: [
                 ListView.builder(
-                    padding: EdgeInsets.only(top: 70),
+                    padding: const EdgeInsets.only(top: 70),
                     itemCount: movies.length,
                     itemExtent: 200,
                     itemBuilder: (BuildContext context, int index) {
@@ -90,14 +91,14 @@ class _MoviesListScreenState extends State<MoviesListScreen> {
                                 border: Border.all(
                                   color: Colors.black.withOpacity(0.2),
                                 ),
-                                borderRadius: BorderRadius.all(
+                                borderRadius: const BorderRadius.all(
                                   Radius.circular(10),
                                 ),
                                 boxShadow: [
                                   BoxShadow(
                                     color: Colors.black.withOpacity(0.1),
                                     blurRadius: 8,
-                                    offset: Offset(0, 2),
+                                    offset: const Offset(0, 2),
                                   ),
                                 ],
                               ),
@@ -109,8 +110,8 @@ class _MoviesListScreenState extends State<MoviesListScreen> {
                                           ApiClient.imageUrl(posterPath),
                                           width: 118.7,
                                         )
-                                      : SizedBox.shrink(),
-                                  SizedBox(
+                                      : const SizedBox.shrink(),
+                                  const SizedBox(
                                     width: 15,
                                   ),
                                   Expanded(
@@ -118,7 +119,7 @@ class _MoviesListScreenState extends State<MoviesListScreen> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        SizedBox(
+                                        const SizedBox(
                                           height: 20,
                                         ),
                                         Text(
@@ -129,16 +130,19 @@ class _MoviesListScreenState extends State<MoviesListScreen> {
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
                                         ),
-                                        SizedBox(
+                                        const SizedBox(
                                           height: 5,
                                         ),
                                         Text(
-                                          movie.releaseDate!,
-                                          style: TextStyle(color: Colors.grey),
+                                          movie.releaseDate != null
+                                              ? movie.releaseDate!
+                                              : '',
+                                          style: const TextStyle(
+                                              color: Colors.grey),
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
                                         ),
-                                        SizedBox(
+                                        const SizedBox(
                                           height: 20,
                                         ),
                                         Text(
@@ -150,7 +154,7 @@ class _MoviesListScreenState extends State<MoviesListScreen> {
                                       ],
                                     ),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 10,
                                   )
                                 ],
@@ -163,7 +167,7 @@ class _MoviesListScreenState extends State<MoviesListScreen> {
                                   onTapped(movie);
                                 },
                                 borderRadius:
-                                    BorderRadius.all(Radius.circular(10)),
+                                    const BorderRadius.all(Radius.circular(10)),
                               ),
                             )
                           ],
@@ -173,12 +177,13 @@ class _MoviesListScreenState extends State<MoviesListScreen> {
                 Padding(
                   padding: const EdgeInsets.all(10),
                   child: TextField(
+                    key: const ValueKey('searchTextField'),
                     onChanged:
                         BlocProvider.of<MoviesCubit>(context).searchMovie,
                     decoration: InputDecoration(
                       filled: true,
                       fillColor: Colors.white.withAlpha(235),
-                      border: OutlineInputBorder(),
+                      border: const OutlineInputBorder(),
                       labelText: 'Search',
                     ),
                   ),
@@ -186,7 +191,7 @@ class _MoviesListScreenState extends State<MoviesListScreen> {
               ],
             );
           }
-          return Center(
+          return const Center(
             child: Text('ERROR STATE'),
           );
         },

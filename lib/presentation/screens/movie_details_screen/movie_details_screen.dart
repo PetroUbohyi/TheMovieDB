@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:themoviedb/data/models/movie_model/movie_ui.dart';
 import 'package:themoviedb/data/networking/api_client.dart';
@@ -28,9 +27,9 @@ class MovieDetailsScreen extends StatelessWidget {
         return Scaffold(
           backgroundColor: Colors.black,
           appBar: AppBar(
-            title: Text('Loading...'),
+            title: const Text('Loading...'),
           ),
-          body: Center(
+          body: const Center(
             child: CircularProgressIndicator(),
           ),
         );
@@ -46,14 +45,14 @@ class MovieDetailsScreen extends StatelessWidget {
           body: ListView(
             children: [
               _TopPosterWidget(
-                backdropPath: movieDetails.backdropPath!,
-                posterPath: movieDetails.posterPath!,
+                backdropPath: movieDetails.backdropPath,
+                posterPath: movieDetails.posterPath,
               ),
               Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: _MovieTitleWidget(
                   movieTitle: movieDetails.title,
-                  releaseDate: movieDetails.releaseDate!,
+                  releaseDate: movieDetails.releaseDate,
                 ),
               ),
               _UserScoreWidget(
@@ -76,7 +75,7 @@ class MovieDetailsScreen extends StatelessWidget {
               _OverviewWidget(
                 overview: movieDetails.overview!,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 15,
               ),
               _TopBilledCastWidget(
@@ -89,7 +88,7 @@ class MovieDetailsScreen extends StatelessWidget {
           ),
         );
       }
-      return Center(
+      return const Center(
         child: Text("Error state"),
       );
     });
@@ -119,8 +118,9 @@ class _GenresWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final finalGenre = genres.last.name;
-    final release =
-        "${releaseDate!.substring(5, 7)}/${releaseDate!.substring(8, 10)}/${releaseDate!.substring(0, 4)}";
+    final release = releaseDate != ''
+        ? "${releaseDate!.substring(5, 7)}/${releaseDate!.substring(8, 10)}/${releaseDate!.substring(0, 4)}"
+        : '00/00/00';
     final runtimeResult = durationToString(runtime!);
     return ColoredBox(
       color: Colors.black.withOpacity(0.7),
@@ -131,16 +131,16 @@ class _GenresWidget extends StatelessWidget {
             children: [
               Text(
                 release,
-                style: TextStyle(color: Colors.white),
+                style: const TextStyle(color: Colors.white),
               ),
               for (var prod in production)
                 Text(
                   ' (${prod.iso})',
-                  style: TextStyle(color: Colors.white),
+                  style: const TextStyle(color: Colors.white),
                 ),
               Text(
                 runtimeResult,
-                style: TextStyle(color: Colors.white),
+                style: const TextStyle(color: Colors.white),
               ),
             ],
           ),
@@ -151,11 +151,11 @@ class _GenresWidget extends StatelessWidget {
                 finalGenre != genre.name
                     ? Text(
                         '${genre.name}, ',
-                        style: TextStyle(color: Colors.white),
+                        style: const TextStyle(color: Colors.white),
                       )
                     : Text(
-                        '${genre.name}',
-                        style: TextStyle(color: Colors.white),
+                        genre.name,
+                        style: const TextStyle(color: Colors.white),
                       ),
             ],
           ),
@@ -166,8 +166,8 @@ class _GenresWidget extends StatelessWidget {
 }
 
 class _TopPosterWidget extends StatelessWidget {
-  final String backdropPath;
-  final String posterPath;
+  final String? backdropPath;
+  final String? posterPath;
 
   const _TopPosterWidget(
       {Key? key, required this.backdropPath, required this.posterPath})
@@ -180,14 +180,18 @@ class _TopPosterWidget extends StatelessWidget {
       child: Stack(
         fit: StackFit.loose,
         children: [
-          Image.network(
-            ApiClient.imageUrl(backdropPath),
-            alignment: Alignment.center,
-            width: MediaQuery.of(context).size.width,
-            fit: BoxFit.cover,
-          ),
+          backdropPath != null
+              ? Image.network(
+                  ApiClient.imageUrl(backdropPath),
+                  alignment: Alignment.center,
+                  width: MediaQuery.of(context).size.width,
+                  fit: BoxFit.cover,
+                )
+              : SizedBox(),
           Positioned(
-            child: Image.network(ApiClient.imageUrl(posterPath)),
+            child: posterPath != null
+                ? Image.network(ApiClient.imageUrl(posterPath))
+                : SizedBox(),
             top: 20,
             left: 20,
             bottom: 20,
@@ -200,7 +204,7 @@ class _TopPosterWidget extends StatelessWidget {
 
 class _MovieTitleWidget extends StatelessWidget {
   final String movieTitle;
-  final String releaseDate;
+  final String? releaseDate;
 
   const _MovieTitleWidget(
       {Key? key, required this.movieTitle, required this.releaseDate})
@@ -217,15 +221,20 @@ class _MovieTitleWidget extends StatelessWidget {
             children: [
               TextSpan(
                 text: movieTitle,
-                style: TextStyle(
+                style: const TextStyle(
                     color: Colors.white,
                     fontSize: 20,
                     fontWeight: FontWeight.bold),
               ),
-              TextSpan(
-                text: ' (${releaseDate.substring(0, 4)})',
-                style: TextStyle(color: Colors.grey, fontSize: 18.5),
-              )
+              releaseDate != ''
+                  ? TextSpan(
+                      text: ' (${releaseDate!.substring(0, 4)})',
+                      style:
+                          const TextStyle(color: Colors.grey, fontSize: 18.5),
+                    )
+                  : const TextSpan(
+                      text: ' (SOON)',
+                      style: TextStyle(color: Colors.grey, fontSize: 18.5)),
             ],
           ),
         ),
@@ -257,14 +266,14 @@ class _UserScoreWidget extends StatelessWidget {
                   percent: voteAverage / 10,
                   center: Text(
                     (voteAverage * 10).toString(),
-                    style: TextStyle(color: Colors.white),
+                    style: const TextStyle(color: Colors.white),
                   ),
                   progressColor: Colors.green,
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 15,
                 ),
-                Text(
+                const Text(
                   'User Score',
                   style: TextStyle(
                       color: Colors.white,
@@ -282,7 +291,7 @@ class _UserScoreWidget extends StatelessWidget {
           TextButton(
             onPressed: () {},
             child: Row(
-              children: [
+              children: const [
                 Icon(
                   Icons.play_arrow,
                   color: Colors.white,
@@ -312,7 +321,7 @@ class _TaglineWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       tagLine!,
-      style: TextStyle(color: Colors.grey),
+      style: const TextStyle(color: Colors.grey),
     );
   }
 }
@@ -329,17 +338,17 @@ class _OverviewWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
+          const Text(
             'Overview',
             style: TextStyle(
                 color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           Text(
             overview,
-            style: TextStyle(color: Colors.white),
+            style: const TextStyle(color: Colors.white),
           )
         ],
       ),
@@ -404,17 +413,19 @@ class _TopBilledCastWidget extends StatelessWidget {
                           color: colorBox,
                           border:
                               Border.all(color: Colors.black.withOpacity(0.2)),
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(10)),
                           boxShadow: [
                             BoxShadow(
                               color: Colors.black.withOpacity(0.1),
                               blurRadius: 8,
-                              offset: Offset(0, 2),
+                              offset: const Offset(0, 2),
                             )
                           ],
                         ),
                         child: ClipRRect(
-                          borderRadius: BorderRadius.all(Radius.circular(8)),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(8)),
                           clipBehavior: Clip.hardEdge,
                           child: Column(
                             children: [
@@ -425,20 +436,14 @@ class _TopBilledCastWidget extends StatelessWidget {
                                           cast[index].profilePath!),
                                       height: 156,
                                     )
-                                  // ? Image.network(
-                                  //     ApiClient.imageUrl(
-                                  //       cast[index].profilePath!,
-                                  //     ),
-                                  //     height: 156,
-                                  //   )
-                                  : Container(
+                                  : const SizedBox(
                                       height: 156,
                                       child: Center(
                                         child: Text('No image'),
                                       ),
                                     ),
                               Padding(
-                                padding: EdgeInsets.all(8.0),
+                                padding: const EdgeInsets.all(8.0),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -449,12 +454,12 @@ class _TopBilledCastWidget extends StatelessWidget {
                                       maxLines: 2,
                                       overflow: TextOverflow.ellipsis,
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       height: 7,
                                     ),
                                     Text(
                                       character,
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                           fontSize: 12, color: Colors.grey),
                                       maxLines: 3,
                                     )
@@ -471,7 +476,7 @@ class _TopBilledCastWidget extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(left: 10.0),
+              padding: const EdgeInsets.only(left: 10.0),
               child: TextButton(
                 onPressed: () {
                   onTapped(movieId);

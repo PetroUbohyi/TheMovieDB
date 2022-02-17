@@ -32,13 +32,13 @@ class MoviesCubit extends Cubit<MoviesState> {
   }
 
   Future<void> loadMovies(String filter) async {
-    if (_movies.length == 0 && _searchQuery == null) {
+    if (_movies.isEmpty && _searchQuery == null) {
       emit(MoviesLoadingState());
     }
     if (_currentPage >= _totalPage) return;
     final nextPage = _currentPage + 1;
     try {
-      final movieResponse = await _movieRepository.fetchMovie(nextPage, filter);
+      final movieResponse = await fetchMovies(nextPage, filter);
       final newMovies = await mapNetworkMovieModelToUIMovieModel(movieResponse);
       _movies.addAll(newMovies);
       _currentPage = movieResponse.page;
@@ -83,11 +83,11 @@ class MoviesCubit extends Cubit<MoviesState> {
 
   Future<void> searchMovie(String text) async {
     searchDelay?.cancel();
-    searchDelay = Timer(Duration(milliseconds: 300), () async {
+    searchDelay = Timer(const Duration(milliseconds: 300), () async {
       final searchQuery = text.isNotEmpty ? text : null;
       if (_searchQuery == searchQuery) return;
       _searchQuery = searchQuery;
-      resetList('popular');
+      resetList();
     });
   }
 }

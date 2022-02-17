@@ -15,11 +15,11 @@ class ActorsListScreen extends StatelessWidget {
     return BlocBuilder<CastCrewCubit, CastCrewState>(builder: (context, state) {
       if (state is CastCrewLoadingState) {
         return Scaffold(
-          body: Center(
+          body: const Center(
             child: CircularProgressIndicator(),
           ),
           appBar: AppBar(
-            title: Text(
+            title: const Text(
               "Full Cast & Crew",
               style: TextStyle(fontWeight: FontWeight.w700),
             ),
@@ -34,7 +34,7 @@ class ActorsListScreen extends StatelessWidget {
         final textColor = isDark ? Colors.white : Colors.black;
         return Scaffold(
           appBar: AppBar(
-            title: Text(
+            title: const Text(
               "Full Cast & Crew",
               style: TextStyle(fontWeight: FontWeight.w700),
             ),
@@ -57,12 +57,12 @@ class ActorsListScreen extends StatelessWidget {
                         color: colorBox,
                         border:
                             Border.all(color: Colors.black.withOpacity(0.2)),
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        borderRadius: const BorderRadius.all(Radius.circular(10)),
                         boxShadow: [
                           BoxShadow(
                             color: Colors.black.withOpacity(0.1),
                             blurRadius: 8,
-                            offset: Offset(0, 2),
+                            offset: const Offset(0, 2),
                           )
                         ],
                       ),
@@ -74,7 +74,7 @@ class ActorsListScreen extends StatelessWidget {
                                   ApiClient.imageUrl(profilePath),
                                   width: 118.7,
                                 )
-                              : Container(
+                              : SizedBox(
                                   child: Center(
                                     child: Text(
                                       'No image',
@@ -83,14 +83,14 @@ class ActorsListScreen extends StatelessWidget {
                                   ),
                                   width: 118.7,
                                 ),
-                          SizedBox(
+                          const SizedBox(
                             width: 15,
                           ),
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                SizedBox(
+                                const SizedBox(
                                   height: 20,
                                 ),
                                 Text(
@@ -101,12 +101,12 @@ class ActorsListScreen extends StatelessWidget {
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 5,
                                 ),
                                 Text(
                                   characterOrDepartment,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     color: Colors.grey,
                                   ),
                                   maxLines: 1,
@@ -125,7 +125,7 @@ class ActorsListScreen extends StatelessWidget {
           ),
         );
       }
-      return Center(child: Text('ERROR STATE'));
+      return const Center(child: Text('ERROR STATE'));
     });
   }
 }

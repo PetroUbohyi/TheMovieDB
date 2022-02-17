@@ -12,7 +12,7 @@ class AppTheme {
   static final lightTheme = ThemeData(
     scaffoldBackgroundColor: Colors.white,
     primaryColor: Colors.white,
-    iconTheme: IconThemeData(color: Colors.white),
+    iconTheme: const IconThemeData(color: Colors.white),
     appBarTheme: const AppBarTheme(backgroundColor: AppColors.mainAppColor),
   );
 }
