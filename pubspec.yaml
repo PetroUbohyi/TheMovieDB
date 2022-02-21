@@ -44,6 +44,7 @@ dev_dependencies:
     sdk: flutter
   json_serializable: ^6.1.4
   build_runner: ^2.1.7
+  mockito: ^5.1.0
   dio: ^4.0.4
   percent_indicator: ^4.0.0
 

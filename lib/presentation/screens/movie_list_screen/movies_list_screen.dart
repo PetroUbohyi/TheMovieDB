@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:themoviedb/data/models/movie_model/movie_ui.dart';
-import 'package:themoviedb/data/networking/api_client.dart';
+import 'package:themoviedb/data/networking/movie_repository.dart';
 import 'package:themoviedb/theme/app_colors.dart';
 
 import 'movies_list_cubit/movies_cubit.dart';
@@ -107,7 +107,7 @@ class _MoviesListScreenState extends State<MoviesListScreen> {
                                 children: [
                                   posterPath != null
                                       ? Image.network(
-                                          ApiClient.imageUrl(posterPath),
+                                          MovieRepository.imageUrl(posterPath),
                                           width: 118.7,
                                         )
                                       : const SizedBox.shrink(),

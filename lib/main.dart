@@ -8,8 +8,7 @@ import 'package:themoviedb/theme/app_theme.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   setup();
-  final app = TheMovieDBApp();
-  runApp(app);
+  runApp(TheMovieDBApp());
 }
 
 class TheMovieDBApp extends StatelessWidget {

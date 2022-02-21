@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:themoviedb/data/networking/api_client.dart';
 
+import '../../../data/networking/movie_repository.dart';
 import 'actors_list_cubit/cast_crew_cubit.dart';
 
 class ActorsListScreen extends StatelessWidget {
@@ -57,7 +57,8 @@ class ActorsListScreen extends StatelessWidget {
                         color: colorBox,
                         border:
                             Border.all(color: Colors.black.withOpacity(0.2)),
-                        borderRadius: const BorderRadius.all(Radius.circular(10)),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(10)),
                         boxShadow: [
                           BoxShadow(
                             color: Colors.black.withOpacity(0.1),
@@ -71,7 +72,7 @@ class ActorsListScreen extends StatelessWidget {
                         children: [
                           profilePath != null
                               ? Image.network(
-                                  ApiClient.imageUrl(profilePath),
+                                  MovieRepository.imageUrl(profilePath),
                                   width: 118.7,
                                 )
                               : SizedBox(

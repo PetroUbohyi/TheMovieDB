@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:themoviedb/data/models/movie_model/movie_ui.dart';
-import 'package:themoviedb/data/networking/api_client.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:themoviedb/data/models/credits_model/credits.dart';
 import 'package:themoviedb/data/models/movie_details_model/movie_details.dart';
+import 'package:themoviedb/data/networking/movie_repository.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 import 'movie_details_cubit/movie_detail_cubit.dart';
@@ -182,7 +182,7 @@ class _TopPosterWidget extends StatelessWidget {
         children: [
           backdropPath != null
               ? Image.network(
-                  ApiClient.imageUrl(backdropPath),
+                  MovieRepository.imageUrl(backdropPath),
                   alignment: Alignment.center,
                   width: MediaQuery.of(context).size.width,
                   fit: BoxFit.cover,
@@ -190,7 +190,7 @@ class _TopPosterWidget extends StatelessWidget {
               : SizedBox(),
           Positioned(
             child: posterPath != null
-                ? Image.network(ApiClient.imageUrl(posterPath))
+                ? Image.network(MovieRepository.imageUrl(posterPath))
                 : SizedBox(),
             top: 20,
             left: 20,
@@ -432,7 +432,7 @@ class _TopBilledCastWidget extends StatelessWidget {
                               profilePath != null
                                   ? FadeInImage.memoryNetwork(
                                       placeholder: kTransparentImage,
-                                      image: ApiClient.imageUrl(
+                                      image: MovieRepository.imageUrl(
                                           cast[index].profilePath!),
                                       height: 156,
                                     )
