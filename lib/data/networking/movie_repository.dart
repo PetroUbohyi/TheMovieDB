@@ -33,7 +33,7 @@ class MovieRepository {
     try {
       final url = '$_host/movie/$movieId?api_key=$_apiKey';
       final response = await dio.get(url);
-      var movieDetails = await response.data;
+      var movieDetails = await response.data as Map<String, dynamic>;
       return MovieDetails.fromJson(movieDetails);
     } catch (e) {
       throw Exception('Exception with error: $e');

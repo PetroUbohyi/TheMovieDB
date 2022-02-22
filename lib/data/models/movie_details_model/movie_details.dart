@@ -1,9 +1,10 @@
+import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'movie_details.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
-class MovieDetails {
+class MovieDetails extends Equatable {
   final bool adult;
   final String? backdropPath;
   final BelongsToCollection? belongsToCollection;
@@ -62,6 +63,36 @@ class MovieDetails {
       _$MovieDetailsFromJson(json);
 
   Map<String, dynamic> toJson() => _$MovieDetailsToJson(this);
+
+  @override
+
+  List<Object?> get props => [
+        adult,
+        backdropPath,
+        belongsToCollection,
+        budget,
+        genres,
+        homepage,
+        id,
+        imdbId,
+        originalLanguage,
+        originalTitle,
+        overview,
+        popularity,
+        posterPath,
+        productionCompanies,
+        productionCountries,
+        releaseDate,
+        revenue,
+        runtime,
+        spokenLanguages,
+        status,
+        tagline,
+        title,
+        video,
+        voteAverage,
+        voteCount,
+      ];
 }
 
 @JsonSerializable(fieldRename: FieldRename.snake)
@@ -75,7 +106,7 @@ class BelongsToCollection {
 }
 
 @JsonSerializable(fieldRename: FieldRename.snake)
-class Genre {
+class Genre extends Equatable {
   final int id;
   final String name;
 
@@ -87,10 +118,13 @@ class Genre {
   factory Genre.fromJson(Map<String, dynamic> json) => _$GenreFromJson(json);
 
   Map<String, dynamic> toJson() => _$GenreToJson(this);
+
+  @override
+  List<Object?> get props => [id, name];
 }
 
 @JsonSerializable(fieldRename: FieldRename.snake)
-class ProductionCompanie {
+class ProductionCompanie extends Equatable {
   final int id;
   final String? logoPath;
   final String name;
@@ -107,10 +141,13 @@ class ProductionCompanie {
       _$ProductionCompanieFromJson(json);
 
   Map<String, dynamic> toJson() => _$ProductionCompanieToJson(this);
+
+  @override
+  List<Object?> get props => [id, logoPath, name, originCountry];
 }
 
 @JsonSerializable(fieldRename: FieldRename.snake)
-class ProductionCountrie {
+class ProductionCountrie extends Equatable {
   @JsonKey(name: 'iso_3166_1')
   final String iso;
   final String name;
@@ -124,15 +161,20 @@ class ProductionCountrie {
       _$ProductionCountrieFromJson(json);
 
   Map<String, dynamic> toJson() => _$ProductionCountrieToJson(this);
+
+  @override
+  List<Object?> get props => [iso, name];
 }
 
 @JsonSerializable(fieldRename: FieldRename.snake)
-class SpokenLanguage {
+class SpokenLanguage extends Equatable {
   @JsonKey(name: 'iso_639_1')
+  final String englishName;
   final String iso;
   final String name;
 
   SpokenLanguage({
+    required this.englishName,
     required this.iso,
     required this.name,
   });
@@ -141,4 +183,7 @@ class SpokenLanguage {
       _$SpokenLanguageFromJson(json);
 
   Map<String, dynamic> toJson() => _$SpokenLanguageToJson(this);
+
+  @override
+  List<Object?> get props => [englishName, iso, name];
 }

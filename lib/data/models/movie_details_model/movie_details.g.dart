@@ -78,7 +78,7 @@ Map<String, dynamic> _$MovieDetailsToJson(MovieDetails instance) =>
     };
 
 BelongsToCollection _$BelongsToCollectionFromJson(Map<String, dynamic> json) =>
-    const BelongsToCollection();
+    BelongsToCollection();
 
 Map<String, dynamic> _$BelongsToCollectionToJson(
         BelongsToCollection instance) =>
@@ -124,6 +124,7 @@ Map<String, dynamic> _$ProductionCountrieToJson(ProductionCountrie instance) =>
 
 SpokenLanguage _$SpokenLanguageFromJson(Map<String, dynamic> json) =>
     SpokenLanguage(
+      englishName: json['english_name'] as String,
       iso: json['iso_639_1'] as String,
       name: json['name'] as String,
     );

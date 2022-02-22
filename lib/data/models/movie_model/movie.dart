@@ -1,9 +1,10 @@
+import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'movie.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake) //for JSON snake field names
-class Movie {
+class Movie extends Equatable {
   final String? posterPath;
   final bool adult;
   final String overview;
@@ -38,4 +39,22 @@ class Movie {
   factory Movie.fromJson(Map<String, dynamic> json) => _$MovieFromJson(json);
 
   Map<String, dynamic> toJson() => _$MovieToJson(this);
+
+  @override
+  List<Object?> get props => [
+        posterPath,
+        adult,
+        overview,
+        releaseDate,
+        genre_ids,
+        id,
+        originalTitle,
+        originalLanguage,
+        title,
+        backdropPath,
+        popularity,
+        voteCount,
+        video,
+        voteAverage,
+      ];
 }

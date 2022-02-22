@@ -183,6 +183,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.0.4"
+  equatable:
+    dependency: "direct main"
+    description:
+      name: equatable
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.3"
   fake_async:
     dependency: transitive
     description:
@@ -369,7 +376,7 @@ packages:
     source: hosted
     version: "1.8.0"
   percent_indicator:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: percent_indicator
       url: "https://pub.dartlang.org"
