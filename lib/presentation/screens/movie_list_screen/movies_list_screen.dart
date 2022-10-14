@@ -169,7 +169,7 @@ class _MoviesListScreenState extends State<MoviesListScreen> {
                                 borderRadius:
                                     const BorderRadius.all(Radius.circular(10)),
                               ),
-                            )
+                            ),
                           ],
                         ),
                       );

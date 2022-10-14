@@ -187,7 +187,7 @@ class _TopPosterWidget extends StatelessWidget {
                   width: MediaQuery.of(context).size.width,
                   fit: BoxFit.cover,
                 )
-              : SizedBox(),
+                : SizedBox(),
           Positioned(
             child: posterPath != null
                 ? Image.network(MovieRepository.imageUrl(posterPath))

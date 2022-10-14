@@ -31,7 +31,7 @@ class MovieDetails extends Equatable {
   final double voteAverage;
   final int voteCount;
 
-  MovieDetails({
+  const MovieDetails({
     required this.adult,
     required this.backdropPath,
     required this.belongsToCollection,
@@ -110,7 +110,7 @@ class Genre extends Equatable {
   final int id;
   final String name;
 
-  Genre({
+  const Genre({
     required this.id,
     required this.name,
   });
@@ -130,7 +130,7 @@ class ProductionCompanie extends Equatable {
   final String name;
   final String originCountry;
 
-  ProductionCompanie({
+  const ProductionCompanie({
     required this.id,
     required this.logoPath,
     required this.name,
@@ -152,7 +152,7 @@ class ProductionCountrie extends Equatable {
   final String iso;
   final String name;
 
-  ProductionCountrie({
+  const ProductionCountrie({
     required this.iso,
     required this.name,
   });
@@ -173,7 +173,7 @@ class SpokenLanguage extends Equatable {
   final String iso;
   final String name;
 
-  SpokenLanguage({
+  const SpokenLanguage({
     required this.englishName,
     required this.iso,
     required this.name,

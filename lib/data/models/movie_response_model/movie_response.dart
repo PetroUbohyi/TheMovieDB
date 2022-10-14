@@ -13,7 +13,7 @@ class MovieResponse extends Equatable{
   final int totalResults;
   final int totalPages;
 
-  MovieResponse(
+  const MovieResponse(
       {required this.page,
       required this.movies,
       required this.totalResults,
